@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package admin;
+
+option go_package = "persacc/api/v1/admin;adminpb";
+
+import "api/v1/admin/user.proto";
+import "api/v1/admin/role.proto";
+import "api/v1/admin/customer.proto";
+import "api/v1/admin/permission.proto";
+
+service AdminService {
+    rpc Register(RegisterRequest) returns (RegisterResponse);
+    rpc CreateUser(CreateUserRequest) returns (CreateUserResponse);
+    rpc GetUser(GetUserRequest) returns (GetUserResponse);
+    rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
+    rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse);
+    rpc ListUsers(ListUsersRequest) returns (ListUsersResponse);
+
+    rpc CreateCustomer(CreateCustomerRequest) returns (CreateCustomerResponse);
+    rpc GetCustomer(GetCustomerRequest) returns (GetCustomerResponse);
+    rpc UpdateCustomer(UpdateCustomerRequest) returns (UpdateCustomerResponse);
+    rpc DeleteCustomer(DeleteCustomerRequest) returns (DeleteCustomerResponse);
+    rpc ListCustomers(ListCustomersRequest) returns (ListCustomersResponse);
+
+    rpc CreateRole(CreateRoleRequest) returns (CreateRoleResponse);
+    rpc GetRole(GetRoleRequest) returns (GetRoleResponse);
+    rpc UpdateRole(UpdateRoleRequest) returns (UpdateRoleResponse);
+    rpc DeleteRole(DeleteRoleRequest) returns (DeleteRoleResponse);
+    rpc ListRoles(ListRolesRequest) returns (ListRolesResponse);
+
+    rpc CreatePermission(CreatePermissionRequest) returns (CreatePermissionResponse);
+    rpc GetPermission(GetPermissionRequest) returns (GetPermissionResponse);
+    rpc UpdatePermission(UpdatePermissionRequest) returns (UpdatePermissionResponse);
+    rpc DeletePermission(DeletePermissionRequest) returns (DeletePermissionResponse);
+    rpc ListPermissions(ListPermissionsRequest) returns (ListPermissionsResponse);
+}
