@@ -10,14 +10,15 @@ import (
 
 	adminpb "persacc/api/v1/admin"
 	"persacc/internal/entity"
+	"persacc/internal/service"
 )
 
 type UserController struct {
-	DB *gorm.DB
+	Service *service.UserService
 }
 
-func NewUserController(db *gorm.DB) *UserController {
-	return &UserController{DB: db}
+func NewUserController(service *service.UserService) *UserController {
+	return &UserController{Service: service}
 }
 
 func (c *UserController) Register(ctx context.Context, req *adminpb.RegisterRequest) (*adminpb.RegisterResponse, error) {
@@ -31,35 +32,16 @@ func (c *UserController) Register(ctx context.Context, req *adminpb.RegisterRequ
 		return nil, status.Errorf(codes.Internal, "name not found in context")
 	}
 
-	// Check if user already exists
-	var existingUser entity.User
-	if err := c.DB.Where("email = ?", email).First(&existingUser).Error; err == nil {
-		return nil, status.Errorf(codes.AlreadyExists, "user with this email already exists")
-	} else if !errors.Is(err, gorm.ErrRecordNotFound) {
-		return nil, status.Errorf(codes.Internal, "failed to check existing user: %v", err)
-	}
-
-	// Find the 'user' role
-	var role entity.Role
-	if err := c.DB.Where("name = ?", "user").First(&role).Error; err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, status.Errorf(codes.Internal, "'user' role not found in the system")
+	user, err := c.Service.Register(ctx, email, name)
+	if err != nil {
+		if err.Error() == "user with this email already exists" {
+			return nil, status.Errorf(codes.AlreadyExists, "%v", err.Error())
 		}
-		return nil, status.Errorf(codes.Internal, "failed to retrieve 'user' role: %v", err)
-	}
-
-	user := entity.User{
-		Name:   name,
-		Email:  email,
-		RoleID: role.ID,
-	}
-
-	if err := c.DB.Create(&user).Error; err != nil {
-		return nil, status.Errorf(codes.Internal, "failed to create user: %v", err)
+		return nil, status.Errorf(codes.Internal, "failed to register user: %v", err)
 	}
 
 	return &adminpb.RegisterResponse{
-		User: ConvertUserToProto(user),
+		User: ConvertUserToProto(*user),
 	}, nil
 }
 
@@ -70,7 +52,7 @@ func (c *UserController) Create(ctx context.Context, req *adminpb.CreateUserRequ
 		RoleID: req.RoleId,
 	}
 
-	if err := c.DB.Create(&user).Error; err != nil {
+	if err := c.Service.Create(ctx, &user); err != nil {
 		return nil, status.Errorf(codes.Internal, "failed to create user: %v", err)
 	}
 
@@ -80,8 +62,8 @@ func (c *UserController) Create(ctx context.Context, req *adminpb.CreateUserRequ
 }
 
 func (c *UserController) Get(ctx context.Context, req *adminpb.GetUserRequest) (*adminpb.GetUserResponse, error) {
-	var user entity.User
-	if err := c.DB.First(&user, "id = ?", req.Id).Error; err != nil {
+	user, err := c.Service.Get(ctx, req.Id)
+	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, status.Errorf(codes.NotFound, "user not found")
 		}
@@ -89,13 +71,13 @@ func (c *UserController) Get(ctx context.Context, req *adminpb.GetUserRequest) (
 	}
 
 	return &adminpb.GetUserResponse{
-		User: ConvertUserToProto(user),
+		User: ConvertUserToProto(*user),
 	}, nil
 }
 
 func (c *UserController) Update(ctx context.Context, req *adminpb.UpdateUserRequest) (*adminpb.UpdateUserResponse, error) {
-	var user entity.User
-	if err := c.DB.First(&user, "id = ?", req.Id).Error; err != nil {
+	user, err := c.Service.Get(ctx, req.Id)
+	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, status.Errorf(codes.NotFound, "user not found")
 		}
@@ -112,26 +94,23 @@ func (c *UserController) Update(ctx context.Context, req *adminpb.UpdateUserRequ
 		user.RoleID = req.RoleId
 	}
 
-	if err := c.DB.Save(&user).Error; err != nil {
+	if err := c.Service.Update(ctx, user); err != nil {
 		return nil, status.Errorf(codes.Internal, "failed to update user: %v", err)
 	}
 
 	return &adminpb.UpdateUserResponse{
-		User: ConvertUserToProto(user),
+		User: ConvertUserToProto(*user),
 	}, nil
 }
 
 func (c *UserController) Delete(ctx context.Context, req *adminpb.DeleteUserRequest) (*adminpb.DeleteUserResponse, error) {
-	if err := c.DB.Delete(&entity.User{}, "id = ?", req.Id).Error; err != nil {
+	if err := c.Service.Delete(ctx, req.Id); err != nil {
 		return nil, status.Errorf(codes.Internal, "failed to delete user: %v", err)
 	}
 	return &adminpb.DeleteUserResponse{Success: true}, nil
 }
 
 func (c *UserController) List(ctx context.Context, req *adminpb.ListUsersRequest) (*adminpb.ListUsersResponse, error) {
-	var users []entity.User
-	var total int64
-
 	limit := int(req.Limit)
 	if limit <= 0 {
 		limit = 10
@@ -142,8 +121,8 @@ func (c *UserController) List(ctx context.Context, req *adminpb.ListUsersRequest
 	}
 	offset := (page - 1) * limit
 
-	c.DB.Model(&entity.User{}).Count(&total)
-	if err := c.DB.Limit(limit).Offset(offset).Find(&users).Error; err != nil {
+	users, total, err := c.Service.List(ctx, limit, offset)
+	if err != nil {
 		return nil, status.Errorf(codes.Internal, "failed to list users: %v", err)
 	}
 

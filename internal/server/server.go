@@ -7,6 +7,7 @@ import (
 
 	adminpb "persacc/api/v1/admin"
 	"persacc/internal/controller"
+	"persacc/internal/service"
 
 	authpb "github.com/gevorgmb/oauth/api/v1/pb/proto"
 )
@@ -22,13 +23,18 @@ type AdminServer struct {
 }
 
 func NewAdminServer(db *gorm.DB, authClient authpb.OAuthClient) *AdminServer {
+	userService := service.NewUserService(db)
+	roleService := service.NewRoleService(db)
+	customerService := service.NewCustomerService(db)
+	permissionService := service.NewPermissionService(db)
+
 	return &AdminServer{
 		DB:             db,
 		AuthClient:     authClient,
-		UserCtrl:       controller.NewUserController(db),
-		RoleCtrl:       controller.NewRoleController(db),
-		CustomerCtrl:   controller.NewCustomerController(db),
-		PermissionCtrl: controller.NewPermissionController(db),
+		UserCtrl:       controller.NewUserController(userService),
+		RoleCtrl:       controller.NewRoleController(roleService),
+		CustomerCtrl:   controller.NewCustomerController(customerService),
+		PermissionCtrl: controller.NewPermissionController(permissionService),
 	}
 }
 

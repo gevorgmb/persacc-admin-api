@@ -10,14 +10,15 @@ import (
 
 	adminpb "persacc/api/v1/admin"
 	"persacc/internal/entity"
+	"persacc/internal/service"
 )
 
 type PermissionController struct {
-	DB *gorm.DB
+	Service *service.PermissionService
 }
 
-func NewPermissionController(db *gorm.DB) *PermissionController {
-	return &PermissionController{DB: db}
+func NewPermissionController(service *service.PermissionService) *PermissionController {
+	return &PermissionController{Service: service}
 }
 
 func (c *PermissionController) Create(ctx context.Context, req *adminpb.CreatePermissionRequest) (*adminpb.CreatePermissionResponse, error) {
@@ -26,7 +27,7 @@ func (c *PermissionController) Create(ctx context.Context, req *adminpb.CreatePe
 		Description: req.Description,
 	}
 
-	if err := c.DB.Create(&permission).Error; err != nil {
+	if err := c.Service.Create(ctx, &permission); err != nil {
 		return nil, status.Errorf(codes.Internal, "failed to create permission: %v", err)
 	}
 
@@ -36,8 +37,8 @@ func (c *PermissionController) Create(ctx context.Context, req *adminpb.CreatePe
 }
 
 func (c *PermissionController) Get(ctx context.Context, req *adminpb.GetPermissionRequest) (*adminpb.GetPermissionResponse, error) {
-	var permission entity.Permission
-	if err := c.DB.First(&permission, "id = ?", req.Id).Error; err != nil {
+	permission, err := c.Service.Get(ctx, req.Id)
+	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, status.Errorf(codes.NotFound, "permission not found")
 		}
@@ -45,13 +46,13 @@ func (c *PermissionController) Get(ctx context.Context, req *adminpb.GetPermissi
 	}
 
 	return &adminpb.GetPermissionResponse{
-		Permission: ConvertPermissionToProto(permission),
+		Permission: ConvertPermissionToProto(*permission),
 	}, nil
 }
 
 func (c *PermissionController) Update(ctx context.Context, req *adminpb.UpdatePermissionRequest) (*adminpb.UpdatePermissionResponse, error) {
-	var permission entity.Permission
-	if err := c.DB.First(&permission, "id = ?", req.Id).Error; err != nil {
+	permission, err := c.Service.Get(ctx, req.Id)
+	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, status.Errorf(codes.NotFound, "permission not found")
 		}
@@ -65,26 +66,23 @@ func (c *PermissionController) Update(ctx context.Context, req *adminpb.UpdatePe
 		permission.Description = req.Description
 	}
 
-	if err := c.DB.Save(&permission).Error; err != nil {
+	if err := c.Service.Update(ctx, permission); err != nil {
 		return nil, status.Errorf(codes.Internal, "failed to update permission: %v", err)
 	}
 
 	return &adminpb.UpdatePermissionResponse{
-		Permission: ConvertPermissionToProto(permission),
+		Permission: ConvertPermissionToProto(*permission),
 	}, nil
 }
 
 func (c *PermissionController) Delete(ctx context.Context, req *adminpb.DeletePermissionRequest) (*adminpb.DeletePermissionResponse, error) {
-	if err := c.DB.Delete(&entity.Permission{}, "id = ?", req.Id).Error; err != nil {
+	if err := c.Service.Delete(ctx, req.Id); err != nil {
 		return nil, status.Errorf(codes.Internal, "failed to delete permission: %v", err)
 	}
 	return &adminpb.DeletePermissionResponse{Success: true}, nil
 }
 
 func (c *PermissionController) List(ctx context.Context, req *adminpb.ListPermissionsRequest) (*adminpb.ListPermissionsResponse, error) {
-	var permissions []entity.Permission
-	var total int64
-
 	limit := int(req.Limit)
 	if limit <= 0 {
 		limit = 10
@@ -95,8 +93,8 @@ func (c *PermissionController) List(ctx context.Context, req *adminpb.ListPermis
 	}
 	offset := (page - 1) * limit
 
-	c.DB.Model(&entity.Permission{}).Count(&total)
-	if err := c.DB.Limit(limit).Offset(offset).Find(&permissions).Error; err != nil {
+	permissions, total, err := c.Service.List(ctx, limit, offset)
+	if err != nil {
 		return nil, status.Errorf(codes.Internal, "failed to list permissions: %v", err)
 	}
 
