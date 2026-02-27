@@ -12,14 +12,15 @@ import (
 
 	adminpb "persacc/api/v1/admin"
 	"persacc/internal/entity"
+	"persacc/internal/service"
 )
 
 type CustomerController struct {
-	DB *gorm.DB
+	Service *service.CustomerService
 }
 
-func NewCustomerController(db *gorm.DB) *CustomerController {
-	return &CustomerController{DB: db}
+func NewCustomerController(service *service.CustomerService) *CustomerController {
+	return &CustomerController{Service: service}
 }
 
 func (c *CustomerController) Create(ctx context.Context, req *adminpb.CreateCustomerRequest) (*adminpb.CreateCustomerResponse, error) {
@@ -52,7 +53,7 @@ func (c *CustomerController) Create(ctx context.Context, req *adminpb.CreateCust
 		customer.UserID = &uid
 	}
 
-	if err := c.DB.Create(&customer).Error; err != nil {
+	if err := c.Service.Create(ctx, &customer); err != nil {
 		return nil, status.Errorf(codes.Internal, "failed to create customer: %v", err)
 	}
 
@@ -62,8 +63,8 @@ func (c *CustomerController) Create(ctx context.Context, req *adminpb.CreateCust
 }
 
 func (c *CustomerController) Get(ctx context.Context, req *adminpb.GetCustomerRequest) (*adminpb.GetCustomerResponse, error) {
-	var customer entity.Customer
-	if err := c.DB.First(&customer, "id = ?", req.Id).Error; err != nil {
+	customer, err := c.Service.Get(ctx, req.Id)
+	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, status.Errorf(codes.NotFound, "customer not found")
 		}
@@ -71,13 +72,13 @@ func (c *CustomerController) Get(ctx context.Context, req *adminpb.GetCustomerRe
 	}
 
 	return &adminpb.GetCustomerResponse{
-		Customer: ConvertCustomerToProto(customer),
+		Customer: ConvertCustomerToProto(*customer),
 	}, nil
 }
 
 func (c *CustomerController) Update(ctx context.Context, req *adminpb.UpdateCustomerRequest) (*adminpb.UpdateCustomerResponse, error) {
-	var customer entity.Customer
-	if err := c.DB.First(&customer, "id = ?", req.Id).Error; err != nil {
+	customer, err := c.Service.Get(ctx, req.Id)
+	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, status.Errorf(codes.NotFound, "customer not found")
 		}
@@ -120,26 +121,23 @@ func (c *CustomerController) Update(ctx context.Context, req *adminpb.UpdateCust
 		}
 	}
 
-	if err := c.DB.Save(&customer).Error; err != nil {
+	if err := c.Service.Update(ctx, customer); err != nil {
 		return nil, status.Errorf(codes.Internal, "failed to update customer: %v", err)
 	}
 
 	return &adminpb.UpdateCustomerResponse{
-		Customer: ConvertCustomerToProto(customer),
+		Customer: ConvertCustomerToProto(*customer),
 	}, nil
 }
 
 func (c *CustomerController) Delete(ctx context.Context, req *adminpb.DeleteCustomerRequest) (*adminpb.DeleteCustomerResponse, error) {
-	if err := c.DB.Delete(&entity.Customer{}, "id = ?", req.Id).Error; err != nil {
+	if err := c.Service.Delete(ctx, req.Id); err != nil {
 		return nil, status.Errorf(codes.Internal, "failed to delete customer: %v", err)
 	}
 	return &adminpb.DeleteCustomerResponse{Success: true}, nil
 }
 
 func (c *CustomerController) List(ctx context.Context, req *adminpb.ListCustomersRequest) (*adminpb.ListCustomersResponse, error) {
-	var customers []entity.Customer
-	var total int64
-
 	limit := int(req.Limit)
 	if limit <= 0 {
 		limit = 10
@@ -150,8 +148,8 @@ func (c *CustomerController) List(ctx context.Context, req *adminpb.ListCustomer
 	}
 	offset := (page - 1) * limit
 
-	c.DB.Model(&entity.Customer{}).Count(&total)
-	if err := c.DB.Limit(limit).Offset(offset).Find(&customers).Error; err != nil {
+	customers, total, err := c.Service.List(ctx, limit, offset)
+	if err != nil {
 		return nil, status.Errorf(codes.Internal, "failed to list customers: %v", err)
 	}
 

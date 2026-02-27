@@ -77,7 +77,7 @@ func (i *AuthInterceptor) Unary() grpc.UnaryServerInterceptor {
 			return handler(ctx, req)
 		}
 
-		// 4. User is authenticated, now check authorization (Role)
+		// 4. User is authenticated, now check role requirements based on the method
 		userEmail := verifyResp.Email
 		var user entity.User
 		// Preload Role to check its name
@@ -88,12 +88,27 @@ func (i *AuthInterceptor) Unary() grpc.UnaryServerInterceptor {
 			return nil, status.Errorf(codes.Internal, "failed to check user role: %v", err)
 		}
 
-		// 5. Check if role is "admin"
-		if user.Role.Name != "admin" {
-			return nil, status.Errorf(codes.PermissionDenied, "access denied: requires admin role")
+		// 5. Define paths that explicitly require admin access
+		requireAdminPaths := map[string]bool{
+			"/admin.AdminService/CreateUser":       true,
+			"/admin.AdminService/UpdateUser":       true,
+			"/admin.AdminService/DeleteUser":       true,
+			"/admin.AdminService/CreateRole":       true,
+			"/admin.AdminService/UpdateRole":       true,
+			"/admin.AdminService/DeleteRole":       true,
+			"/admin.AdminService/CreatePermission": true,
+			"/admin.AdminService/UpdatePermission": true,
+			"/admin.AdminService/DeletePermission": true,
 		}
 
-		// 5. Proceed
+		// 6. Check if this method requires admin and if the user is an admin
+		if requireAdminPaths[info.FullMethod] {
+			if user.Role.Name != "admin" {
+				return nil, status.Errorf(codes.PermissionDenied, "access denied: method requires admin role")
+			}
+		}
+
+		// 7. Proceed
 		return handler(ctx, req)
 	}
 }
