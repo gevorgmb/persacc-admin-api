@@ -33,11 +33,17 @@ func (i *AuthInterceptor) Unary() grpc.UnaryServerInterceptor {
 		// Log the method being called for debugging
 		log.Printf("Checking access for method: %s", info.FullMethod)
 
-		// Skip auth for reflection
-		if strings.HasPrefix(info.FullMethod, "/grpc.reflection") {
+		// Skip auth for reflection and OAuth proxy methods
+		publicMethods := map[string]bool{
+			"/admin.AdminService/OAuthRegister": true,
+			"/admin.AdminService/OAuthToken":    true,
+			"/admin.AdminService/OAuthVerify":   true,
+			"/admin.AdminService/OAuthRefresh":  true,
+		}
+
+		if strings.HasPrefix(info.FullMethod, "/grpc.reflection") || publicMethods[info.FullMethod] {
 			return handler(ctx, req)
 		}
-		log.Println("Not reflection")
 
 		// 1. Extract Authorization from metadata
 		md, ok := metadata.FromIncomingContext(ctx)
