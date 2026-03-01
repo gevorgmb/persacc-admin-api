@@ -1,6 +1,7 @@
 protoc \
-  --go_out=. \
+  --proto_path=./proto \
+  --go_out=./api/v1/admin \
   --go_opt=paths=source_relative \
-  --go-grpc_out=. \
+  --go-grpc_out=./api/v1/admin \
   --go-grpc_opt=paths=source_relative \
-  api/v1/admin/*.proto
+  ./proto/*.proto
