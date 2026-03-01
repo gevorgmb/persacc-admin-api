@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.10
 // 	protoc        v3.21.12
-// source: api/v1/admin/admin.proto
+// source: admin.proto
 
 package adminpb
 
@@ -20,11 +20,13 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-var File_api_v1_admin_admin_proto protoreflect.FileDescriptor
+var File_admin_proto protoreflect.FileDescriptor
 
-const file_api_v1_admin_admin_proto_rawDesc = "" +
+const file_admin_proto_rawDesc = "" +
 	"\n" +
-	"\x18api/v1/admin/admin.proto\x12\x05admin\x1a\x17api/v1/admin/user.proto\x1a\x17api/v1/admin/role.proto\x1a\x1bapi/v1/admin/customer.proto\x1a\x1dapi/v1/admin/permission.proto2\xed\v\n" +
+	"\vadmin.proto\x12\x05admin\x1a\n" +
+	"user.proto\x1a\n" +
+	"role.proto\x1a\x0ecustomer.proto\x1a\x10permission.proto2\xed\v\n" +
 	"\fAdminService\x12;\n" +
 	"\bRegister\x12\x16.admin.RegisterRequest\x1a\x17.admin.RegisterResponse\x12A\n" +
 	"\n" +
@@ -54,7 +56,7 @@ const file_api_v1_admin_admin_proto_rawDesc = "" +
 	"\x10DeletePermission\x12\x1e.admin.DeletePermissionRequest\x1a\x1f.admin.DeletePermissionResponse\x12P\n" +
 	"\x0fListPermissions\x12\x1d.admin.ListPermissionsRequest\x1a\x1e.admin.ListPermissionsResponseB\x1eZ\x1cpersacc/api/v1/admin;adminpbb\x06proto3"
 
-var file_api_v1_admin_admin_proto_goTypes = []any{
+var file_admin_proto_goTypes = []any{
 	(*RegisterRequest)(nil),          // 0: admin.RegisterRequest
 	(*CreateUserRequest)(nil),        // 1: admin.CreateUserRequest
 	(*GetUserRequest)(nil),           // 2: admin.GetUserRequest
@@ -98,7 +100,7 @@ var file_api_v1_admin_admin_proto_goTypes = []any{
 	(*DeletePermissionResponse)(nil), // 40: admin.DeletePermissionResponse
 	(*ListPermissionsResponse)(nil),  // 41: admin.ListPermissionsResponse
 }
-var file_api_v1_admin_admin_proto_depIdxs = []int32{
+var file_admin_proto_depIdxs = []int32{
 	0,  // 0: admin.AdminService.Register:input_type -> admin.RegisterRequest
 	1,  // 1: admin.AdminService.CreateUser:input_type -> admin.CreateUserRequest
 	2,  // 2: admin.AdminService.GetUser:input_type -> admin.GetUserRequest
@@ -148,29 +150,29 @@ var file_api_v1_admin_admin_proto_depIdxs = []int32{
 	0,  // [0:0] is the sub-list for field type_name
 }
 
-func init() { file_api_v1_admin_admin_proto_init() }
-func file_api_v1_admin_admin_proto_init() {
-	if File_api_v1_admin_admin_proto != nil {
+func init() { file_admin_proto_init() }
+func file_admin_proto_init() {
+	if File_admin_proto != nil {
 		return
 	}
-	file_api_v1_admin_user_proto_init()
-	file_api_v1_admin_role_proto_init()
-	file_api_v1_admin_customer_proto_init()
-	file_api_v1_admin_permission_proto_init()
+	file_user_proto_init()
+	file_role_proto_init()
+	file_customer_proto_init()
+	file_permission_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_v1_admin_admin_proto_rawDesc), len(file_api_v1_admin_admin_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_admin_proto_rawDesc), len(file_admin_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   0,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_api_v1_admin_admin_proto_goTypes,
-		DependencyIndexes: file_api_v1_admin_admin_proto_depIdxs,
+		GoTypes:           file_admin_proto_goTypes,
+		DependencyIndexes: file_admin_proto_depIdxs,
 	}.Build()
-	File_api_v1_admin_admin_proto = out.File
-	file_api_v1_admin_admin_proto_goTypes = nil
-	file_api_v1_admin_admin_proto_depIdxs = nil
+	File_admin_proto = out.File
+	file_admin_proto_goTypes = nil
+	file_admin_proto_depIdxs = nil
 }
