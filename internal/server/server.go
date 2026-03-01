@@ -20,6 +20,7 @@ type AdminServer struct {
 	RoleCtrl       *controller.RoleController
 	CustomerCtrl   *controller.CustomerController
 	PermissionCtrl *controller.PermissionController
+	OAuthCtrl      *controller.OAuthController
 }
 
 func NewAdminServer(db *gorm.DB, authClient authpb.OAuthClient) *AdminServer {
@@ -27,6 +28,7 @@ func NewAdminServer(db *gorm.DB, authClient authpb.OAuthClient) *AdminServer {
 	roleService := service.NewRoleService(db)
 	customerService := service.NewCustomerService(db)
 	permissionService := service.NewPermissionService(db)
+	oauthService := service.NewOAuthService(authClient)
 
 	return &AdminServer{
 		DB:             db,
@@ -35,6 +37,7 @@ func NewAdminServer(db *gorm.DB, authClient authpb.OAuthClient) *AdminServer {
 		RoleCtrl:       controller.NewRoleController(roleService),
 		CustomerCtrl:   controller.NewCustomerController(customerService),
 		PermissionCtrl: controller.NewPermissionController(permissionService),
+		OAuthCtrl:      controller.NewOAuthController(oauthService),
 	}
 }
 
@@ -128,4 +131,22 @@ func (s *AdminServer) DeletePermission(ctx context.Context, req *adminpb.DeleteP
 
 func (s *AdminServer) ListPermissions(ctx context.Context, req *adminpb.ListPermissionsRequest) (*adminpb.ListPermissionsResponse, error) {
 	return s.PermissionCtrl.List(ctx, req)
+}
+
+// --- OAuth Proxy ---
+
+func (s *AdminServer) OAuthRegister(ctx context.Context, req *adminpb.OAuthRegisterRequest) (*adminpb.OAuthRegisterResponse, error) {
+	return s.OAuthCtrl.OAuthRegister(ctx, req)
+}
+
+func (s *AdminServer) OAuthToken(ctx context.Context, req *adminpb.OAuthTokenRequest) (*adminpb.OAuthTokenResponse, error) {
+	return s.OAuthCtrl.OAuthToken(ctx, req)
+}
+
+func (s *AdminServer) OAuthVerify(ctx context.Context, req *adminpb.OAuthVerifyRequest) (*adminpb.OAuthVerifyResponse, error) {
+	return s.OAuthCtrl.OAuthVerify(ctx, req)
+}
+
+func (s *AdminServer) OAuthRefresh(ctx context.Context, req *adminpb.OAuthRefreshRequest) (*adminpb.OAuthRefreshResponse, error) {
+	return s.OAuthCtrl.OAuthRefresh(ctx, req)
 }

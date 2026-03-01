@@ -20,6 +20,10 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	AdminService_Register_FullMethodName         = "/admin.AdminService/Register"
+	AdminService_OAuthRegister_FullMethodName    = "/admin.AdminService/OAuthRegister"
+	AdminService_OAuthToken_FullMethodName       = "/admin.AdminService/OAuthToken"
+	AdminService_OAuthVerify_FullMethodName      = "/admin.AdminService/OAuthVerify"
+	AdminService_OAuthRefresh_FullMethodName     = "/admin.AdminService/OAuthRefresh"
 	AdminService_CreateUser_FullMethodName       = "/admin.AdminService/CreateUser"
 	AdminService_GetUser_FullMethodName          = "/admin.AdminService/GetUser"
 	AdminService_UpdateUser_FullMethodName       = "/admin.AdminService/UpdateUser"
@@ -47,6 +51,10 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AdminServiceClient interface {
 	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error)
+	OAuthRegister(ctx context.Context, in *OAuthRegisterRequest, opts ...grpc.CallOption) (*OAuthRegisterResponse, error)
+	OAuthToken(ctx context.Context, in *OAuthTokenRequest, opts ...grpc.CallOption) (*OAuthTokenResponse, error)
+	OAuthVerify(ctx context.Context, in *OAuthVerifyRequest, opts ...grpc.CallOption) (*OAuthVerifyResponse, error)
+	OAuthRefresh(ctx context.Context, in *OAuthRefreshRequest, opts ...grpc.CallOption) (*OAuthRefreshResponse, error)
 	CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*CreateUserResponse, error)
 	GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*GetUserResponse, error)
 	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*UpdateUserResponse, error)
@@ -81,6 +89,46 @@ func (c *adminServiceClient) Register(ctx context.Context, in *RegisterRequest, 
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(RegisterResponse)
 	err := c.cc.Invoke(ctx, AdminService_Register_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) OAuthRegister(ctx context.Context, in *OAuthRegisterRequest, opts ...grpc.CallOption) (*OAuthRegisterResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OAuthRegisterResponse)
+	err := c.cc.Invoke(ctx, AdminService_OAuthRegister_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) OAuthToken(ctx context.Context, in *OAuthTokenRequest, opts ...grpc.CallOption) (*OAuthTokenResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OAuthTokenResponse)
+	err := c.cc.Invoke(ctx, AdminService_OAuthToken_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) OAuthVerify(ctx context.Context, in *OAuthVerifyRequest, opts ...grpc.CallOption) (*OAuthVerifyResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OAuthVerifyResponse)
+	err := c.cc.Invoke(ctx, AdminService_OAuthVerify_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) OAuthRefresh(ctx context.Context, in *OAuthRefreshRequest, opts ...grpc.CallOption) (*OAuthRefreshResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(OAuthRefreshResponse)
+	err := c.cc.Invoke(ctx, AdminService_OAuthRefresh_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -292,6 +340,10 @@ func (c *adminServiceClient) ListPermissions(ctx context.Context, in *ListPermis
 // for forward compatibility.
 type AdminServiceServer interface {
 	Register(context.Context, *RegisterRequest) (*RegisterResponse, error)
+	OAuthRegister(context.Context, *OAuthRegisterRequest) (*OAuthRegisterResponse, error)
+	OAuthToken(context.Context, *OAuthTokenRequest) (*OAuthTokenResponse, error)
+	OAuthVerify(context.Context, *OAuthVerifyRequest) (*OAuthVerifyResponse, error)
+	OAuthRefresh(context.Context, *OAuthRefreshRequest) (*OAuthRefreshResponse, error)
 	CreateUser(context.Context, *CreateUserRequest) (*CreateUserResponse, error)
 	GetUser(context.Context, *GetUserRequest) (*GetUserResponse, error)
 	UpdateUser(context.Context, *UpdateUserRequest) (*UpdateUserResponse, error)
@@ -324,6 +376,18 @@ type UnimplementedAdminServiceServer struct{}
 
 func (UnimplementedAdminServiceServer) Register(context.Context, *RegisterRequest) (*RegisterResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
+}
+func (UnimplementedAdminServiceServer) OAuthRegister(context.Context, *OAuthRegisterRequest) (*OAuthRegisterResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OAuthRegister not implemented")
+}
+func (UnimplementedAdminServiceServer) OAuthToken(context.Context, *OAuthTokenRequest) (*OAuthTokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OAuthToken not implemented")
+}
+func (UnimplementedAdminServiceServer) OAuthVerify(context.Context, *OAuthVerifyRequest) (*OAuthVerifyResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OAuthVerify not implemented")
+}
+func (UnimplementedAdminServiceServer) OAuthRefresh(context.Context, *OAuthRefreshRequest) (*OAuthRefreshResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OAuthRefresh not implemented")
 }
 func (UnimplementedAdminServiceServer) CreateUser(context.Context, *CreateUserRequest) (*CreateUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
@@ -420,6 +484,78 @@ func _AdminService_Register_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AdminServiceServer).Register(ctx, req.(*RegisterRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_OAuthRegister_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OAuthRegisterRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).OAuthRegister(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_OAuthRegister_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).OAuthRegister(ctx, req.(*OAuthRegisterRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_OAuthToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OAuthTokenRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).OAuthToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_OAuthToken_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).OAuthToken(ctx, req.(*OAuthTokenRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_OAuthVerify_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OAuthVerifyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).OAuthVerify(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_OAuthVerify_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).OAuthVerify(ctx, req.(*OAuthVerifyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_OAuthRefresh_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OAuthRefreshRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).OAuthRefresh(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_OAuthRefresh_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).OAuthRefresh(ctx, req.(*OAuthRefreshRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -794,6 +930,22 @@ var AdminService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Register",
 			Handler:    _AdminService_Register_Handler,
+		},
+		{
+			MethodName: "OAuthRegister",
+			Handler:    _AdminService_OAuthRegister_Handler,
+		},
+		{
+			MethodName: "OAuthToken",
+			Handler:    _AdminService_OAuthToken_Handler,
+		},
+		{
+			MethodName: "OAuthVerify",
+			Handler:    _AdminService_OAuthVerify_Handler,
+		},
+		{
+			MethodName: "OAuthRefresh",
+			Handler:    _AdminService_OAuthRefresh_Handler,
 		},
 		{
 			MethodName: "CreateUser",
