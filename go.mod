@@ -6,6 +6,7 @@ require (
 	github.com/gevorgmb/oauth v0.0.0-20260222121859-97bd9fa40635
 	github.com/improbable-eng/grpc-web v0.15.0
 	github.com/rs/cors v1.11.1
+	golang.org/x/net v0.51.0
 	google.golang.org/grpc v1.78.0
 	google.golang.org/protobuf v1.36.11
 	gorm.io/driver/postgres v1.6.0
@@ -23,7 +24,6 @@ require (
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/klauspost/compress v1.11.7 // indirect
 	golang.org/x/crypto v0.48.0 // indirect
-	golang.org/x/net v0.51.0 // indirect
 	golang.org/x/sync v0.19.0 // indirect
 	golang.org/x/sys v0.41.0 // indirect
 	golang.org/x/text v0.34.0 // indirect
