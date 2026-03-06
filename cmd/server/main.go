@@ -3,9 +3,13 @@ package main
 import (
 	"log"
 	"net"
+	"net/http"
 	"os"
 	"strings"
 
+	"github.com/improbable-eng/grpc-web/go/grpcweb"
+	"golang.org/x/net/http2"
+	"golang.org/x/net/http2/h2c"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/reflection"
@@ -68,8 +72,63 @@ func main() {
 	// Register reflection for debugging (grpcurl)
 	reflection.Register(grpcServer)
 
-	log.Printf("Admin gRPC server starting on port %s...", port)
-	if err := grpcServer.Serve(lis); err != nil {
+	// 5. Wrap gRPC with gRPC-web
+	wrappedGrpc := grpcweb.WrapServer(grpcServer,
+		grpcweb.WithOriginFunc(func(origin string) bool { return true }), // CORS handles origin validation
+	)
+
+	// CORS configuration
+	allowedOriginsStr := os.Getenv("ALLOWED_ORIGINS")
+	allowedOriginsStr = strings.TrimSpace(allowedOriginsStr)
+	allowedOriginsStr = strings.Trim(allowedOriginsStr, "\"'")
+	var allowedOrigins []string
+	if allowedOriginsStr != "" {
+		allowedOrigins = strings.Split(allowedOriginsStr, ",")
+		for i := range allowedOrigins {
+			allowedOrigins[i] = strings.TrimSpace(allowedOrigins[i])
+		}
+	}
+	baseDomain := os.Getenv("BASE_DOMAIN")
+	baseDomain = strings.TrimSpace(baseDomain)
+	baseDomain = strings.Trim(baseDomain, "\"'")
+
+	// Create the CORS handler
+	corsHandler := server.NewCORSHandler(allowedOrigins, baseDomain)
+
+	// Create the root handler that switches between gRPC-web and standard gRPC
+	rootHandler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("Received request: %s %s %s", r.Method, r.URL.Path, r.Proto)
+		for name, values := range r.Header {
+			for _, value := range values {
+				log.Printf("Header: %s: %s", name, value)
+			}
+		}
+
+		if wrappedGrpc.IsGrpcWebRequest(r) {
+			log.Println("Handling as gRPC-web request")
+			wrappedGrpc.ServeHTTP(w, r)
+			return
+		}
+
+		log.Println("Handling as standard gRPC request")
+		grpcServer.ServeHTTP(w, r)
+	})
+
+	// Wrap rootHandler with CORS
+	handlerWithCORS := corsHandler(rootHandler)
+
+	// Wrap everything with h2c as the outermost handler to handle HTTP/2 Cleartext.
+	// This ensures that headers (like Origin) are correctly parsed from HTTP/2 streams before being passed to CORS.
+	handler := h2c.NewHandler(handlerWithCORS, &http2.Server{})
+
+	log.Printf("Admin server starting on port %s (supporting gRPC, gRPC-web, and CORS)...", port)
+	httpServer := &http.Server{
+		Addr:    ":" + port,
+		Handler: handler,
+	}
+
+	log.Printf("Admin server starting on port %s (supporting gRPC, gRPC-web, and CORS)...", port)
+	if err := httpServer.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
 }
