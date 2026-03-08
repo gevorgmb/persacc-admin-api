@@ -39,7 +39,7 @@ func NewCORSHandler(allowedOrigins []string, baseDomain string) func(http.Handle
 			"Origin", "Content-Type", "Accept", "Authorization",
 			"X-Grpc-Web", "X-User-Agent", "Grpc-Timeout", "grpc-status", "grpc-message",
 			"X-Accept-Content-Transfer-Encoding", "X-Accept-Response-Streaming", "X-Requested-With",
-			"Connect-Protocol-Version",
+			"Connect-Protocol-Version", "Connect-Timeout-Ms", "Connect-Content-Encoding", "Connect-Accept-Encoding",
 		},
 		ExposedHeaders: []string{
 			"Grpc-Status", "Grpc-Message", "Grpc-Status-Details-Bin", "grpc-status", "grpc-message",
