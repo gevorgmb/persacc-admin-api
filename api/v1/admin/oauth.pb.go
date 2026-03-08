@@ -26,8 +26,8 @@ type OAuthRegisterRequest struct {
 	Email         string                 `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
 	Password      string                 `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
 	FullName      string                 `protobuf:"bytes,3,opt,name=full_name,json=fullName,proto3" json:"full_name,omitempty"`
-	Phone         string                 `protobuf:"bytes,4,opt,name=phone,proto3" json:"phone,omitempty"`
-	Birthday      string                 `protobuf:"bytes,5,opt,name=birthday,proto3" json:"birthday,omitempty"`
+	Phone         *string                `protobuf:"bytes,4,opt,name=phone,proto3,oneof" json:"phone,omitempty"`
+	Birthday      *string                `protobuf:"bytes,5,opt,name=birthday,proto3,oneof" json:"birthday,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -84,15 +84,15 @@ func (x *OAuthRegisterRequest) GetFullName() string {
 }
 
 func (x *OAuthRegisterRequest) GetPhone() string {
-	if x != nil {
-		return x.Phone
+	if x != nil && x.Phone != nil {
+		return *x.Phone
 	}
 	return ""
 }
 
 func (x *OAuthRegisterRequest) GetBirthday() string {
-	if x != nil {
-		return x.Birthday
+	if x != nil && x.Birthday != nil {
+		return *x.Birthday
 	}
 	return ""
 }
@@ -481,13 +481,15 @@ var File_oauth_proto protoreflect.FileDescriptor
 
 const file_oauth_proto_rawDesc = "" +
 	"\n" +
-	"\voauth.proto\x12\x05admin\"\x97\x01\n" +
+	"\voauth.proto\x12\x05admin\"\xb8\x01\n" +
 	"\x14OAuthRegisterRequest\x12\x14\n" +
 	"\x05email\x18\x01 \x01(\tR\x05email\x12\x1a\n" +
 	"\bpassword\x18\x02 \x01(\tR\bpassword\x12\x1b\n" +
-	"\tfull_name\x18\x03 \x01(\tR\bfullName\x12\x14\n" +
-	"\x05phone\x18\x04 \x01(\tR\x05phone\x12\x1a\n" +
-	"\bbirthday\x18\x05 \x01(\tR\bbirthday\"A\n" +
+	"\tfull_name\x18\x03 \x01(\tR\bfullName\x12\x19\n" +
+	"\x05phone\x18\x04 \x01(\tH\x00R\x05phone\x88\x01\x01\x12\x1f\n" +
+	"\bbirthday\x18\x05 \x01(\tH\x01R\bbirthday\x88\x01\x01B\b\n" +
+	"\x06_phoneB\v\n" +
+	"\t_birthday\"A\n" +
 	"\x15OAuthRegisterResponse\x12\x0e\n" +
 	"\x02ok\x18\x01 \x01(\bR\x02ok\x12\x18\n" +
 	"\amessage\x18\x02 \x01(\tR\amessage\"E\n" +
@@ -550,6 +552,7 @@ func file_oauth_proto_init() {
 	if File_oauth_proto != nil {
 		return
 	}
+	file_oauth_proto_msgTypes[0].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
