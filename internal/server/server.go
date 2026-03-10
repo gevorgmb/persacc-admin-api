@@ -14,13 +14,14 @@ import (
 
 type AdminServer struct {
 	adminpb.UnimplementedAdminServiceServer
-	DB             *gorm.DB
-	AuthClient     authpb.OAuthClient
-	UserCtrl       *controller.UserController
-	RoleCtrl       *controller.RoleController
-	CustomerCtrl   *controller.CustomerController
-	PermissionCtrl *controller.PermissionController
-	OAuthCtrl      *controller.OAuthController
+	DB               *gorm.DB
+	AuthClient       authpb.OAuthClient
+	UserCtrl         *controller.UserController
+	RoleCtrl         *controller.RoleController
+	CustomerCtrl     *controller.CustomerController
+	PermissionCtrl   *controller.PermissionController
+	OAuthCtrl        *controller.OAuthController
+	OrganizationCtrl *controller.OrganizationController
 }
 
 func NewAdminServer(db *gorm.DB, authClient authpb.OAuthClient) *AdminServer {
@@ -31,13 +32,14 @@ func NewAdminServer(db *gorm.DB, authClient authpb.OAuthClient) *AdminServer {
 	oauthService := service.NewOAuthService(authClient)
 
 	return &AdminServer{
-		DB:             db,
-		AuthClient:     authClient,
-		UserCtrl:       controller.NewUserController(userService),
-		RoleCtrl:       controller.NewRoleController(roleService),
-		CustomerCtrl:   controller.NewCustomerController(customerService),
-		PermissionCtrl: controller.NewPermissionController(permissionService),
-		OAuthCtrl:      controller.NewOAuthController(oauthService),
+		DB:               db,
+		AuthClient:       authClient,
+		UserCtrl:         controller.NewUserController(userService),
+		RoleCtrl:         controller.NewRoleController(roleService),
+		CustomerCtrl:     controller.NewCustomerController(customerService),
+		PermissionCtrl:   controller.NewPermissionController(permissionService),
+		OAuthCtrl:        controller.NewOAuthController(oauthService),
+		OrganizationCtrl: controller.NewOrganizationController(service.NewOrganizationService(db)),
 	}
 }
 
@@ -131,6 +133,28 @@ func (s *AdminServer) DeletePermission(ctx context.Context, req *adminpb.DeleteP
 
 func (s *AdminServer) ListPermissions(ctx context.Context, req *adminpb.ListPermissionsRequest) (*adminpb.ListPermissionsResponse, error) {
 	return s.PermissionCtrl.List(ctx, req)
+}
+
+// --- Organization CRUD ---
+
+func (s *AdminServer) CreateOrganization(ctx context.Context, req *adminpb.CreateOrganizationRequest) (*adminpb.CreateOrganizationResponse, error) {
+	return s.OrganizationCtrl.Create(ctx, req)
+}
+
+func (s *AdminServer) GetOrganization(ctx context.Context, req *adminpb.GetOrganizationRequest) (*adminpb.GetOrganizationResponse, error) {
+	return s.OrganizationCtrl.Get(ctx, req)
+}
+
+func (s *AdminServer) UpdateOrganization(ctx context.Context, req *adminpb.UpdateOrganizationRequest) (*adminpb.UpdateOrganizationResponse, error) {
+	return s.OrganizationCtrl.Update(ctx, req)
+}
+
+func (s *AdminServer) DeleteOrganization(ctx context.Context, req *adminpb.DeleteOrganizationRequest) (*adminpb.DeleteOrganizationResponse, error) {
+	return s.OrganizationCtrl.Delete(ctx, req)
+}
+
+func (s *AdminServer) ListOrganizations(ctx context.Context, req *adminpb.ListOrganizationsRequest) (*adminpb.ListOrganizationsResponse, error) {
+	return s.OrganizationCtrl.List(ctx, req)
 }
 
 // --- OAuth Proxy ---

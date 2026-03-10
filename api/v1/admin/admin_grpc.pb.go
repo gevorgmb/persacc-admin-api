@@ -19,31 +19,36 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	AdminService_Register_FullMethodName         = "/admin.AdminService/Register"
-	AdminService_OAuthRegister_FullMethodName    = "/admin.AdminService/OAuthRegister"
-	AdminService_OAuthToken_FullMethodName       = "/admin.AdminService/OAuthToken"
-	AdminService_OAuthVerify_FullMethodName      = "/admin.AdminService/OAuthVerify"
-	AdminService_OAuthRefresh_FullMethodName     = "/admin.AdminService/OAuthRefresh"
-	AdminService_CreateUser_FullMethodName       = "/admin.AdminService/CreateUser"
-	AdminService_GetUser_FullMethodName          = "/admin.AdminService/GetUser"
-	AdminService_UpdateUser_FullMethodName       = "/admin.AdminService/UpdateUser"
-	AdminService_DeleteUser_FullMethodName       = "/admin.AdminService/DeleteUser"
-	AdminService_ListUsers_FullMethodName        = "/admin.AdminService/ListUsers"
-	AdminService_CreateCustomer_FullMethodName   = "/admin.AdminService/CreateCustomer"
-	AdminService_GetCustomer_FullMethodName      = "/admin.AdminService/GetCustomer"
-	AdminService_UpdateCustomer_FullMethodName   = "/admin.AdminService/UpdateCustomer"
-	AdminService_DeleteCustomer_FullMethodName   = "/admin.AdminService/DeleteCustomer"
-	AdminService_ListCustomers_FullMethodName    = "/admin.AdminService/ListCustomers"
-	AdminService_CreateRole_FullMethodName       = "/admin.AdminService/CreateRole"
-	AdminService_GetRole_FullMethodName          = "/admin.AdminService/GetRole"
-	AdminService_UpdateRole_FullMethodName       = "/admin.AdminService/UpdateRole"
-	AdminService_DeleteRole_FullMethodName       = "/admin.AdminService/DeleteRole"
-	AdminService_ListRoles_FullMethodName        = "/admin.AdminService/ListRoles"
-	AdminService_CreatePermission_FullMethodName = "/admin.AdminService/CreatePermission"
-	AdminService_GetPermission_FullMethodName    = "/admin.AdminService/GetPermission"
-	AdminService_UpdatePermission_FullMethodName = "/admin.AdminService/UpdatePermission"
-	AdminService_DeletePermission_FullMethodName = "/admin.AdminService/DeletePermission"
-	AdminService_ListPermissions_FullMethodName  = "/admin.AdminService/ListPermissions"
+	AdminService_Register_FullMethodName           = "/admin.AdminService/Register"
+	AdminService_OAuthRegister_FullMethodName      = "/admin.AdminService/OAuthRegister"
+	AdminService_OAuthToken_FullMethodName         = "/admin.AdminService/OAuthToken"
+	AdminService_OAuthVerify_FullMethodName        = "/admin.AdminService/OAuthVerify"
+	AdminService_OAuthRefresh_FullMethodName       = "/admin.AdminService/OAuthRefresh"
+	AdminService_CreateUser_FullMethodName         = "/admin.AdminService/CreateUser"
+	AdminService_GetUser_FullMethodName            = "/admin.AdminService/GetUser"
+	AdminService_UpdateUser_FullMethodName         = "/admin.AdminService/UpdateUser"
+	AdminService_DeleteUser_FullMethodName         = "/admin.AdminService/DeleteUser"
+	AdminService_ListUsers_FullMethodName          = "/admin.AdminService/ListUsers"
+	AdminService_CreateCustomer_FullMethodName     = "/admin.AdminService/CreateCustomer"
+	AdminService_GetCustomer_FullMethodName        = "/admin.AdminService/GetCustomer"
+	AdminService_UpdateCustomer_FullMethodName     = "/admin.AdminService/UpdateCustomer"
+	AdminService_DeleteCustomer_FullMethodName     = "/admin.AdminService/DeleteCustomer"
+	AdminService_ListCustomers_FullMethodName      = "/admin.AdminService/ListCustomers"
+	AdminService_CreateRole_FullMethodName         = "/admin.AdminService/CreateRole"
+	AdminService_GetRole_FullMethodName            = "/admin.AdminService/GetRole"
+	AdminService_UpdateRole_FullMethodName         = "/admin.AdminService/UpdateRole"
+	AdminService_DeleteRole_FullMethodName         = "/admin.AdminService/DeleteRole"
+	AdminService_ListRoles_FullMethodName          = "/admin.AdminService/ListRoles"
+	AdminService_CreatePermission_FullMethodName   = "/admin.AdminService/CreatePermission"
+	AdminService_GetPermission_FullMethodName      = "/admin.AdminService/GetPermission"
+	AdminService_UpdatePermission_FullMethodName   = "/admin.AdminService/UpdatePermission"
+	AdminService_DeletePermission_FullMethodName   = "/admin.AdminService/DeletePermission"
+	AdminService_ListPermissions_FullMethodName    = "/admin.AdminService/ListPermissions"
+	AdminService_CreateOrganization_FullMethodName = "/admin.AdminService/CreateOrganization"
+	AdminService_GetOrganization_FullMethodName    = "/admin.AdminService/GetOrganization"
+	AdminService_UpdateOrganization_FullMethodName = "/admin.AdminService/UpdateOrganization"
+	AdminService_DeleteOrganization_FullMethodName = "/admin.AdminService/DeleteOrganization"
+	AdminService_ListOrganizations_FullMethodName  = "/admin.AdminService/ListOrganizations"
 )
 
 // AdminServiceClient is the client API for AdminService service.
@@ -75,6 +80,11 @@ type AdminServiceClient interface {
 	UpdatePermission(ctx context.Context, in *UpdatePermissionRequest, opts ...grpc.CallOption) (*UpdatePermissionResponse, error)
 	DeletePermission(ctx context.Context, in *DeletePermissionRequest, opts ...grpc.CallOption) (*DeletePermissionResponse, error)
 	ListPermissions(ctx context.Context, in *ListPermissionsRequest, opts ...grpc.CallOption) (*ListPermissionsResponse, error)
+	CreateOrganization(ctx context.Context, in *CreateOrganizationRequest, opts ...grpc.CallOption) (*CreateOrganizationResponse, error)
+	GetOrganization(ctx context.Context, in *GetOrganizationRequest, opts ...grpc.CallOption) (*GetOrganizationResponse, error)
+	UpdateOrganization(ctx context.Context, in *UpdateOrganizationRequest, opts ...grpc.CallOption) (*UpdateOrganizationResponse, error)
+	DeleteOrganization(ctx context.Context, in *DeleteOrganizationRequest, opts ...grpc.CallOption) (*DeleteOrganizationResponse, error)
+	ListOrganizations(ctx context.Context, in *ListOrganizationsRequest, opts ...grpc.CallOption) (*ListOrganizationsResponse, error)
 }
 
 type adminServiceClient struct {
@@ -335,6 +345,56 @@ func (c *adminServiceClient) ListPermissions(ctx context.Context, in *ListPermis
 	return out, nil
 }
 
+func (c *adminServiceClient) CreateOrganization(ctx context.Context, in *CreateOrganizationRequest, opts ...grpc.CallOption) (*CreateOrganizationResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateOrganizationResponse)
+	err := c.cc.Invoke(ctx, AdminService_CreateOrganization_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) GetOrganization(ctx context.Context, in *GetOrganizationRequest, opts ...grpc.CallOption) (*GetOrganizationResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetOrganizationResponse)
+	err := c.cc.Invoke(ctx, AdminService_GetOrganization_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) UpdateOrganization(ctx context.Context, in *UpdateOrganizationRequest, opts ...grpc.CallOption) (*UpdateOrganizationResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateOrganizationResponse)
+	err := c.cc.Invoke(ctx, AdminService_UpdateOrganization_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) DeleteOrganization(ctx context.Context, in *DeleteOrganizationRequest, opts ...grpc.CallOption) (*DeleteOrganizationResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteOrganizationResponse)
+	err := c.cc.Invoke(ctx, AdminService_DeleteOrganization_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) ListOrganizations(ctx context.Context, in *ListOrganizationsRequest, opts ...grpc.CallOption) (*ListOrganizationsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListOrganizationsResponse)
+	err := c.cc.Invoke(ctx, AdminService_ListOrganizations_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AdminServiceServer is the server API for AdminService service.
 // All implementations must embed UnimplementedAdminServiceServer
 // for forward compatibility.
@@ -364,6 +424,11 @@ type AdminServiceServer interface {
 	UpdatePermission(context.Context, *UpdatePermissionRequest) (*UpdatePermissionResponse, error)
 	DeletePermission(context.Context, *DeletePermissionRequest) (*DeletePermissionResponse, error)
 	ListPermissions(context.Context, *ListPermissionsRequest) (*ListPermissionsResponse, error)
+	CreateOrganization(context.Context, *CreateOrganizationRequest) (*CreateOrganizationResponse, error)
+	GetOrganization(context.Context, *GetOrganizationRequest) (*GetOrganizationResponse, error)
+	UpdateOrganization(context.Context, *UpdateOrganizationRequest) (*UpdateOrganizationResponse, error)
+	DeleteOrganization(context.Context, *DeleteOrganizationRequest) (*DeleteOrganizationResponse, error)
+	ListOrganizations(context.Context, *ListOrganizationsRequest) (*ListOrganizationsResponse, error)
 	mustEmbedUnimplementedAdminServiceServer()
 }
 
@@ -448,6 +513,21 @@ func (UnimplementedAdminServiceServer) DeletePermission(context.Context, *Delete
 }
 func (UnimplementedAdminServiceServer) ListPermissions(context.Context, *ListPermissionsRequest) (*ListPermissionsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListPermissions not implemented")
+}
+func (UnimplementedAdminServiceServer) CreateOrganization(context.Context, *CreateOrganizationRequest) (*CreateOrganizationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateOrganization not implemented")
+}
+func (UnimplementedAdminServiceServer) GetOrganization(context.Context, *GetOrganizationRequest) (*GetOrganizationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOrganization not implemented")
+}
+func (UnimplementedAdminServiceServer) UpdateOrganization(context.Context, *UpdateOrganizationRequest) (*UpdateOrganizationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateOrganization not implemented")
+}
+func (UnimplementedAdminServiceServer) DeleteOrganization(context.Context, *DeleteOrganizationRequest) (*DeleteOrganizationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteOrganization not implemented")
+}
+func (UnimplementedAdminServiceServer) ListOrganizations(context.Context, *ListOrganizationsRequest) (*ListOrganizationsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListOrganizations not implemented")
 }
 func (UnimplementedAdminServiceServer) mustEmbedUnimplementedAdminServiceServer() {}
 func (UnimplementedAdminServiceServer) testEmbeddedByValue()                      {}
@@ -920,6 +1000,96 @@ func _AdminService_ListPermissions_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AdminService_CreateOrganization_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateOrganizationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).CreateOrganization(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_CreateOrganization_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).CreateOrganization(ctx, req.(*CreateOrganizationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_GetOrganization_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetOrganizationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).GetOrganization(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_GetOrganization_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).GetOrganization(ctx, req.(*GetOrganizationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_UpdateOrganization_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateOrganizationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).UpdateOrganization(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_UpdateOrganization_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).UpdateOrganization(ctx, req.(*UpdateOrganizationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_DeleteOrganization_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteOrganizationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).DeleteOrganization(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_DeleteOrganization_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).DeleteOrganization(ctx, req.(*DeleteOrganizationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_ListOrganizations_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListOrganizationsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).ListOrganizations(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_ListOrganizations_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).ListOrganizations(ctx, req.(*ListOrganizationsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AdminService_ServiceDesc is the grpc.ServiceDesc for AdminService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1026,6 +1196,26 @@ var AdminService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListPermissions",
 			Handler:    _AdminService_ListPermissions_Handler,
+		},
+		{
+			MethodName: "CreateOrganization",
+			Handler:    _AdminService_CreateOrganization_Handler,
+		},
+		{
+			MethodName: "GetOrganization",
+			Handler:    _AdminService_GetOrganization_Handler,
+		},
+		{
+			MethodName: "UpdateOrganization",
+			Handler:    _AdminService_UpdateOrganization_Handler,
+		},
+		{
+			MethodName: "DeleteOrganization",
+			Handler:    _AdminService_DeleteOrganization_Handler,
+		},
+		{
+			MethodName: "ListOrganizations",
+			Handler:    _AdminService_ListOrganizations_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
