@@ -257,6 +257,7 @@ func (x *GetOrganizationRequest) GetId() int64 {
 type GetOrganizationResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Organization  *Organization          `protobuf:"bytes,1,opt,name=organization,proto3" json:"organization,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -296,6 +297,13 @@ func (x *GetOrganizationResponse) GetOrganization() *Organization {
 		return x.Organization
 	}
 	return nil
+}
+
+func (x *GetOrganizationResponse) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
 }
 
 type UpdateOrganizationRequest struct {
@@ -631,9 +639,10 @@ const file_organization_proto_rawDesc = "" +
 	"\x1aCreateOrganizationResponse\x127\n" +
 	"\forganization\x18\x01 \x01(\v2\x13.admin.OrganizationR\forganization\"(\n" +
 	"\x16GetOrganizationRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\"R\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"l\n" +
 	"\x17GetOrganizationResponse\x127\n" +
-	"\forganization\x18\x01 \x01(\v2\x13.admin.OrganizationR\forganization\"a\n" +
+	"\forganization\x18\x01 \x01(\v2\x13.admin.OrganizationR\forganization\x12\x18\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\"a\n" +
 	"\x19UpdateOrganizationRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +

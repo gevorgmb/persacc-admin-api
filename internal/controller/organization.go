@@ -42,7 +42,9 @@ func (c *OrganizationController) Get(ctx context.Context, req *adminpb.GetOrgani
 	org, err := c.Service.Get(ctx, req.Id)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, status.Errorf(codes.NotFound, "organization not found")
+			return &adminpb.GetOrganizationResponse{
+				Message: "organization does not added, add it now",
+			}, nil
 		}
 		return nil, status.Errorf(codes.Internal, "failed to get organization: %v", err)
 	}

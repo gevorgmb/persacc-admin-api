@@ -3,7 +3,7 @@ module persacc
 go 1.25.0
 
 require (
-	github.com/gevorgmb/oauth v0.0.0-20260308105837-900bbb45d1c8
+	github.com/gevorgmb/oauth v0.0.0-20260312204936-c97f89ba070a
 	github.com/improbable-eng/grpc-web v0.15.0
 	github.com/rs/cors v1.11.1
 	golang.org/x/net v0.51.0

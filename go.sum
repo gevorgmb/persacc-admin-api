@@ -62,10 +62,8 @@ github.com/fatih/color v1.7.0/go.mod h1:Zm6kSWBoL9eyXnKyktHP6abPY2pDugNf5Kwzbycv
 github.com/franela/goblin v0.0.0-20200105215937-c9ffbefa60db/go.mod h1:7dvUGVsVBjqR7JHJk0brhHOZYGmfBYOrK0ZhYMEtBr4=
 github.com/franela/goreq v0.0.0-20171204163338-bcd34c9993f8/go.mod h1:ZhphrRTfi2rbfLwlschooIH4+wKKDR4Pdxhh+TRoA20=
 github.com/fsnotify/fsnotify v1.4.7/go.mod h1:jwhsz4b93w/PPRr/qN1Yymfu8t87LnFCMoQvtojpjFo=
-github.com/gevorgmb/oauth v0.0.0-20260222121859-97bd9fa40635 h1:kTbWtkCGsyb5BGhNLiPeN6nJUUOUNA0JXgJXkxbcpag=
-github.com/gevorgmb/oauth v0.0.0-20260222121859-97bd9fa40635/go.mod h1:Y8jkT6SfowaP9ghw2OMyHHWW1UZpXaK6HA2XvvUZvSA=
-github.com/gevorgmb/oauth v0.0.0-20260308105837-900bbb45d1c8 h1:eshCAZsNOcKBZa/kp/sAF7wzOyHmey6z71xM50phoZ8=
-github.com/gevorgmb/oauth v0.0.0-20260308105837-900bbb45d1c8/go.mod h1:Y8jkT6SfowaP9ghw2OMyHHWW1UZpXaK6HA2XvvUZvSA=
+github.com/gevorgmb/oauth v0.0.0-20260312204936-c97f89ba070a h1:l89Q2bFn6z3aPleKZN4Vcd8zGO1XGSBWn5SrVLb0YtQ=
+github.com/gevorgmb/oauth v0.0.0-20260312204936-c97f89ba070a/go.mod h1:l2DONA5GZBzkUBGbdbuk2uWFEmg5IzXGZzS8BtvRZgw=
 github.com/ghodss/yaml v1.0.0/go.mod h1:4dBDuWmgqj2HViK6kFavaiC9ZROes6MMH2rRYeMEF04=
 github.com/gin-contrib/sse v0.1.0 h1:Y/yl/+YNO8GZSjAhjMsSuLt29uWRFHdHYUb5lYOV9qE=
 github.com/gin-contrib/sse v0.1.0/go.mod h1:RHrZQHXnP2xjPF+u1gW/2HnVO7nvIa9PG3Gm+fLHvGI=
