@@ -101,6 +101,7 @@ type OAuthRegisterResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Ok            bool                   `protobuf:"varint,1,opt,name=ok,proto3" json:"ok,omitempty"`
 	Message       string                 `protobuf:"bytes,2,opt,name=message,proto3" json:"message,omitempty"`
+	Uuid          string                 `protobuf:"bytes,3,opt,name=uuid,proto3" json:"uuid,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -145,6 +146,13 @@ func (x *OAuthRegisterResponse) GetOk() bool {
 func (x *OAuthRegisterResponse) GetMessage() string {
 	if x != nil {
 		return x.Message
+	}
+	return ""
+}
+
+func (x *OAuthRegisterResponse) GetUuid() string {
+	if x != nil {
+		return x.Uuid
 	}
 	return ""
 }
@@ -311,6 +319,7 @@ type OAuthVerifyResponse struct {
 	Email         string                 `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
 	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
 	Exp           int64                  `protobuf:"varint,4,opt,name=exp,proto3" json:"exp,omitempty"`
+	Uuid          string                 `protobuf:"bytes,5,opt,name=uuid,proto3" json:"uuid,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -371,6 +380,13 @@ func (x *OAuthVerifyResponse) GetExp() int64 {
 		return x.Exp
 	}
 	return 0
+}
+
+func (x *OAuthVerifyResponse) GetUuid() string {
+	if x != nil {
+		return x.Uuid
+	}
+	return ""
 }
 
 type OAuthRefreshRequest struct {
@@ -489,10 +505,11 @@ const file_oauth_proto_rawDesc = "" +
 	"\x05phone\x18\x04 \x01(\tH\x00R\x05phone\x88\x01\x01\x12\x1f\n" +
 	"\bbirthday\x18\x05 \x01(\tH\x01R\bbirthday\x88\x01\x01B\b\n" +
 	"\x06_phoneB\v\n" +
-	"\t_birthday\"A\n" +
+	"\t_birthday\"U\n" +
 	"\x15OAuthRegisterResponse\x12\x0e\n" +
 	"\x02ok\x18\x01 \x01(\bR\x02ok\x12\x18\n" +
-	"\amessage\x18\x02 \x01(\tR\amessage\"E\n" +
+	"\amessage\x18\x02 \x01(\tR\amessage\x12\x12\n" +
+	"\x04uuid\x18\x03 \x01(\tR\x04uuid\"E\n" +
 	"\x11OAuthTokenRequest\x12\x14\n" +
 	"\x05email\x18\x01 \x01(\tR\x05email\x12\x1a\n" +
 	"\bpassword\x18\x02 \x01(\tR\bpassword\"{\n" +
@@ -502,12 +519,13 @@ const file_oauth_proto_rawDesc = "" +
 	"\n" +
 	"expires_in\x18\x03 \x01(\x03R\texpiresIn\"7\n" +
 	"\x12OAuthVerifyRequest\x12!\n" +
-	"\faccess_token\x18\x01 \x01(\tR\vaccessToken\"g\n" +
+	"\faccess_token\x18\x01 \x01(\tR\vaccessToken\"{\n" +
 	"\x13OAuthVerifyResponse\x12\x14\n" +
 	"\x05valid\x18\x01 \x01(\bR\x05valid\x12\x14\n" +
 	"\x05email\x18\x02 \x01(\tR\x05email\x12\x12\n" +
 	"\x04name\x18\x03 \x01(\tR\x04name\x12\x10\n" +
-	"\x03exp\x18\x04 \x01(\x03R\x03exp\":\n" +
+	"\x03exp\x18\x04 \x01(\x03R\x03exp\x12\x12\n" +
+	"\x04uuid\x18\x05 \x01(\tR\x04uuid\":\n" +
 	"\x13OAuthRefreshRequest\x12#\n" +
 	"\rrefresh_token\x18\x01 \x01(\tR\frefreshToken\"}\n" +
 	"\x14OAuthRefreshResponse\x12!\n" +

@@ -32,6 +32,7 @@ func (c *OAuthController) OAuthRegister(ctx context.Context, req *adminpb.OAuthR
 	return &adminpb.OAuthRegisterResponse{
 		Ok:      resp.Ok,
 		Message: resp.Message,
+		Uuid:    resp.GetUuid(),
 	}, nil
 }
 
@@ -64,6 +65,7 @@ func (c *OAuthController) OAuthVerify(ctx context.Context, req *adminpb.OAuthVer
 		Email: resp.Email,
 		Name:  resp.Name,
 		Exp:   resp.Exp,
+		Uuid:  resp.GetUuid(),
 	}, nil
 }
 
