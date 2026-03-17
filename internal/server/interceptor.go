@@ -83,15 +83,47 @@ func (i *AuthInterceptor) Unary() grpc.UnaryServerInterceptor {
 			return handler(ctx, req)
 		}
 
-		// 4. User is authenticated, now check role requirements based on the method
+		// 4. User is authenticated, now sync with local DB
 		userEmail := verifyResp.Email
+		userUuid := verifyResp.GetUuid()
 		var user entity.User
-		// Preload Role to check its name
-		if err := i.DB.Preload("Role").First(&user, "email = ?", userEmail).Error; err != nil {
-			if errors.Is(err, gorm.ErrRecordNotFound) {
-				return nil, status.Errorf(codes.PermissionDenied, "user not found in admin system")
+
+		foundByUuid := false
+		if userUuid != "" {
+			if err := i.DB.Preload("Role").First(&user, "uuid = ?", userUuid).Error; err == nil {
+				foundByUuid = true
+			} else if !errors.Is(err, gorm.ErrRecordNotFound) {
+				return nil, status.Errorf(codes.Internal, "failed to check user by uuid: %v", err)
 			}
-			return nil, status.Errorf(codes.Internal, "failed to check user role: %v", err)
+		}
+
+		if !foundByUuid {
+			if err := i.DB.Preload("Role").First(&user, "email = ?", userEmail).Error; err != nil {
+				if errors.Is(err, gorm.ErrRecordNotFound) {
+					// User not found, create a new one
+					user = entity.User{
+						Name:   verifyResp.Name,
+						Email:  userEmail,
+						Uuid:   userUuid,
+						RoleID: 1, // Default role
+					}
+					if err := i.DB.Create(&user).Error; err != nil {
+						return nil, status.Errorf(codes.Internal, "failed to create user: %v", err)
+					}
+					// Reload to get the Role for the role checks below
+					if err := i.DB.Preload("Role").First(&user, user.ID).Error; err != nil {
+						return nil, status.Errorf(codes.Internal, "failed to load created user: %v", err)
+					}
+				} else {
+					return nil, status.Errorf(codes.Internal, "failed to check user by email: %v", err)
+				}
+			} else if user.Uuid == "" && userUuid != "" {
+				// User found by email but missing UUID, update it
+				user.Uuid = userUuid
+				if err := i.DB.Save(&user).Error; err != nil {
+					return nil, status.Errorf(codes.Internal, "failed to update user uuid: %v", err)
+				}
+			}
 		}
 
 		// 5. Define paths that explicitly require admin access
