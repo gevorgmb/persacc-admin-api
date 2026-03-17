@@ -8,6 +8,7 @@ import (
 
 type User struct {
 	ID        int64 `gorm:"primaryKey;type:bigint;autoIncrement"`
+	Uuid      string
 	Name      string
 	Email     string `gorm:"not null;uniqueIndex"`
 	RoleID    int64  `gorm:"type:bigint;index"`
