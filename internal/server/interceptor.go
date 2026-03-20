@@ -9,6 +9,7 @@ import (
 	"persacc/internal/entity"
 
 	oauthpb "github.com/gevorgmb/oauth/api/v1/pb/proto"
+	"google.golang.org/genproto/googleapis/rpc/errdetails"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/metadata"
@@ -146,7 +147,31 @@ func (i *AuthInterceptor) Unary() grpc.UnaryServerInterceptor {
 			}
 		}
 
-		// 7. Proceed
+		// 8. Enforce Organization ID for all requests except exempted ones
+		isExempted := strings.Contains(info.FullMethod, "OAuth") ||
+			strings.Contains(info.FullMethod, "Organization") ||
+			info.FullMethod == "/admin.AdminService/Register" ||
+			strings.HasPrefix(info.FullMethod, "/grpc.reflection")
+
+		if !isExempted {
+			orgVals := md["organization_id"]
+			if len(orgVals) == 0 || strings.TrimSpace(orgVals[0]) == "" {
+				st := status.New(codes.InvalidArgument, "missing organization_id header")
+				v := &errdetails.BadRequest_FieldViolation{
+					Field:       "organization_id",
+					Description: "The organization_id header is required for this request",
+				}
+				br := &errdetails.BadRequest{}
+				br.FieldViolations = append(br.FieldViolations, v)
+				st, err := st.WithDetails(br)
+				if err != nil {
+					return nil, status.Errorf(codes.Internal, "failed to attach error details: %v", err)
+				}
+				return nil, st.Err()
+			}
+		}
+
+		// 9. Proceed
 		return handler(ctx, req)
 	}
 }
