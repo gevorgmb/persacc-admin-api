@@ -75,6 +75,11 @@ func main() {
 	// 5. Wrap gRPC with gRPC-web
 	wrappedGrpc := grpcweb.WrapServer(grpcServer,
 		grpcweb.WithOriginFunc(func(origin string) bool { return true }), // CORS handles origin validation
+		grpcweb.WithAllowedRequestHeaders([]string{
+			"Origin", "Content-Type", "Accept", "Authorization", "organization_id", "Organization_id", "organization-id", "Organization-Id",
+			"X-Grpc-Web", "X-User-Agent", "Grpc-Timeout",
+			"Connect-Protocol-Version", "Connect-Timeout-Ms", "Connect-Content-Encoding", "Connect-Accept-Encoding",
+		}),
 	)
 
 	// CORS configuration

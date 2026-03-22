@@ -172,6 +172,7 @@ func (i *AuthInterceptor) Unary() grpc.UnaryServerInterceptor {
 		}
 
 		// 9. Proceed
+		ctx = context.WithValue(ctx, "user_id", user.ID)
 		return handler(ctx, req)
 	}
 }
