@@ -36,12 +36,15 @@ func (s *OrganizationService) Delete(ctx context.Context, id int64) error {
 	return s.DB.Delete(&entity.Organization{}, "id = ?", id).Error
 }
 
-func (s *OrganizationService) List(ctx context.Context, limit, offset int) ([]entity.Organization, int64, error) {
+func (s *OrganizationService) List(ctx context.Context, limit, offset int, userId int64) ([]entity.Organization, int64, error) {
 	var orgs []entity.Organization
 	var total int64
 
-	s.DB.Model(&entity.Organization{}).Count(&total)
-	if err := s.DB.Limit(limit).Offset(offset).Find(&orgs).Error; err != nil {
+	query := s.DB.Model(&entity.Organization{}).
+		Where("owner_id = ? OR id IN (SELECT organization_id FROM organization_users WHERE user_id = ?)", userId, userId)
+
+	query.Count(&total)
+	if err := query.Limit(limit).Offset(offset).Find(&orgs).Error; err != nil {
 		return nil, 0, err
 	}
 

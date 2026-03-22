@@ -97,7 +97,7 @@ func (c *OrganizationController) List(ctx context.Context, req *adminpb.ListOrga
 	}
 	offset := (page - 1) * limit
 
-	orgs, total, err := c.Service.List(ctx, limit, offset)
+	orgs, total, err := c.Service.List(ctx, limit, offset, ctx.Value("user_id").(int64))
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "failed to list organizations: %v", err)
 	}
