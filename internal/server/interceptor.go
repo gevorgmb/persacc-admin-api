@@ -51,7 +51,10 @@ func (i *AuthInterceptor) Unary() grpc.UnaryServerInterceptor {
 		if !ok {
 			return nil, status.Errorf(codes.Unauthenticated, "metadata is not provided")
 		}
-		log.Println("Metadata is provided")
+		log.Println("Metadata is provided:")
+		for k, v := range md {
+			log.Printf("  Metadata: %q: %v", k, v)
+		}
 
 		values := md["authorization"]
 		if len(values) == 0 {
@@ -154,8 +157,17 @@ func (i *AuthInterceptor) Unary() grpc.UnaryServerInterceptor {
 			strings.HasPrefix(info.FullMethod, "/grpc.reflection")
 
 		if !isExempted {
-			orgVals := md["organization_id"]
-			if len(orgVals) == 0 || strings.TrimSpace(orgVals[0]) == "" {
+			orgId := ""
+			if vals := md.Get("organization_id"); len(vals) > 0 {
+				orgId = vals[0]
+			}
+			if orgId == "" {
+				if vals := md.Get("organization-id"); len(vals) > 0 {
+					orgId = vals[0]
+				}
+			}
+
+			if strings.TrimSpace(orgId) == "" {
 				st := status.New(codes.InvalidArgument, "missing organization_id header")
 				v := &errdetails.BadRequest_FieldViolation{
 					Field:       "organization_id",

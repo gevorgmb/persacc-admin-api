@@ -122,9 +122,19 @@ func main() {
 	// Wrap rootHandler with CORS
 	handlerWithCORS := corsHandler(rootHandler)
 
-	// Wrap everything with h2c as the outermost handler to handle HTTP/2 Cleartext.
-	// This ensures that headers (like Origin) are correctly parsed from HTTP/2 streams before being passed to CORS.
-	handler := h2c.NewHandler(handlerWithCORS, &http2.Server{})
+	// Wrap with h2c handler
+	handlerWithH2C := h2c.NewHandler(handlerWithCORS, &http2.Server{})
+
+	// Add final logging middleware for debugging
+	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("DEBUG: Incoming HTTP request: %s %s from %s", r.Method, r.URL.Path, r.RemoteAddr)
+		for name, values := range r.Header {
+			for _, value := range values {
+				log.Printf("  DEBUG: HTTP Header: %s: %s", name, value)
+			}
+		}
+		handlerWithH2C.ServeHTTP(w, r)
+	})
 
 	log.Printf("Admin server starting on port %s (supporting gRPC, gRPC-web, and CORS)...", port)
 	httpServer := &http.Server{
