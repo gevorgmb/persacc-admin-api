@@ -53,7 +53,9 @@ func (c *CustomerController) Create(ctx context.Context, req *adminpb.CreateCust
 		customer.UserID = &uid
 	}
 
-	if err := c.Service.Create(ctx, &customer); err != nil {
+	orgId := ctx.Value("organization_id").(int64)
+
+	if err := c.Service.Create(ctx, &customer, orgId); err != nil {
 		return nil, status.Errorf(codes.Internal, "failed to create customer: %v", err)
 	}
 
@@ -63,7 +65,8 @@ func (c *CustomerController) Create(ctx context.Context, req *adminpb.CreateCust
 }
 
 func (c *CustomerController) Get(ctx context.Context, req *adminpb.GetCustomerRequest) (*adminpb.GetCustomerResponse, error) {
-	customer, err := c.Service.Get(ctx, req.Id)
+	orgId := ctx.Value("organization_id").(int64)
+	customer, err := c.Service.Get(ctx, req.Id, orgId)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, status.Errorf(codes.NotFound, "customer not found")
@@ -77,7 +80,8 @@ func (c *CustomerController) Get(ctx context.Context, req *adminpb.GetCustomerRe
 }
 
 func (c *CustomerController) Update(ctx context.Context, req *adminpb.UpdateCustomerRequest) (*adminpb.UpdateCustomerResponse, error) {
-	customer, err := c.Service.Get(ctx, req.Id)
+	orgId := ctx.Value("organization_id").(int64)
+	customer, err := c.Service.Get(ctx, req.Id, orgId)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil, status.Errorf(codes.NotFound, "customer not found")
@@ -121,7 +125,7 @@ func (c *CustomerController) Update(ctx context.Context, req *adminpb.UpdateCust
 		}
 	}
 
-	if err := c.Service.Update(ctx, customer); err != nil {
+	if err := c.Service.Update(ctx, customer, orgId); err != nil {
 		return nil, status.Errorf(codes.Internal, "failed to update customer: %v", err)
 	}
 
@@ -131,7 +135,8 @@ func (c *CustomerController) Update(ctx context.Context, req *adminpb.UpdateCust
 }
 
 func (c *CustomerController) Delete(ctx context.Context, req *adminpb.DeleteCustomerRequest) (*adminpb.DeleteCustomerResponse, error) {
-	if err := c.Service.Delete(ctx, req.Id); err != nil {
+	orgId := ctx.Value("organization_id").(int64)
+	if err := c.Service.Delete(ctx, req.Id, orgId); err != nil {
 		return nil, status.Errorf(codes.Internal, "failed to delete customer: %v", err)
 	}
 	return &adminpb.DeleteCustomerResponse{Success: true}, nil
@@ -148,7 +153,9 @@ func (c *CustomerController) List(ctx context.Context, req *adminpb.ListCustomer
 	}
 	offset := (page - 1) * limit
 
-	customers, total, err := c.Service.List(ctx, limit, offset)
+	orgId := ctx.Value("organization_id").(int64)
+
+	customers, total, err := c.Service.List(ctx, limit, offset, orgId)
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "failed to list customers: %v", err)
 	}
