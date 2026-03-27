@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"log"
+	"strconv"
 	"strings"
 
 	"persacc/internal/entity"
@@ -169,6 +170,12 @@ func (i *AuthInterceptor) Unary() grpc.UnaryServerInterceptor {
 				}
 				return nil, st.Err()
 			}
+
+			orgId, err := strconv.ParseInt(orgVals[0], 10, 64)
+			if err != nil {
+				return nil, status.Errorf(codes.InvalidArgument, "invalid organization_id header: %v", err)
+			}
+			ctx = context.WithValue(ctx, "organization_id", orgId)
 		}
 
 		// 9. Proceed
