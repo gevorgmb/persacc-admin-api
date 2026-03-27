@@ -183,11 +183,11 @@ func (i *AuthInterceptor) Unary() grpc.UnaryServerInterceptor {
 				return nil, st.Err()
 			}
 
-			orgId, err := strconv.ParseInt(orgVals[0], 10, 64)
+			orgIDInt, err := strconv.ParseInt(orgId, 10, 64)
 			if err != nil {
 				return nil, status.Errorf(codes.InvalidArgument, "invalid organization_id header: %v", err)
 			}
-			ctx = context.WithValue(ctx, "organization_id", orgId)
+			ctx = context.WithValue(ctx, "organization_id", orgIDInt)
 		}
 
 		// 9. Proceed
