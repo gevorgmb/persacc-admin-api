@@ -157,7 +157,21 @@ func (c *CustomerController) List(ctx context.Context, req *adminpb.ListCustomer
 
 	orgId := ctx.Value("organization_id").(int64)
 
-	customers, total, err := c.Service.List(ctx, limit, offset, orgId)
+	filters := make(map[string]string)
+	if req.Name != "" {
+		filters["name"] = req.Name
+	}
+	if req.Email != "" {
+		filters["email"] = req.Email
+	}
+	if req.Phone != "" {
+		filters["phone"] = req.Phone
+	}
+	if req.AdditionalInfo != "" {
+		filters["additional_info"] = req.AdditionalInfo
+	}
+
+	customers, total, err := c.Service.List(ctx, limit, offset, orgId, filters)
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "failed to list customers: %v", err)
 	}
