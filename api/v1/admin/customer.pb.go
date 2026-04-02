@@ -33,7 +33,7 @@ type Customer struct {
 	Birthday       string                 `protobuf:"bytes,8,opt,name=birthday,proto3" json:"birthday,omitempty"`
 	Phone          string                 `protobuf:"bytes,9,opt,name=phone,proto3" json:"phone,omitempty"`
 	Email          string                 `protobuf:"bytes,10,opt,name=email,proto3" json:"email,omitempty"`
-	AdditionalInfo string                 `protobuf:"bytes,11,opt,name=additional_info,json=additionalInfo,proto3" json:"additional_info,omitempty"`
+	AdditionalInfo map[string]string      `protobuf:"bytes,11,rep,name=additional_info,json=additionalInfo,proto3" json:"additional_info,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	UserId         int64                  `protobuf:"varint,12,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	CreatedAt      string                 `protobuf:"bytes,13,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	UpdatedAt      string                 `protobuf:"bytes,14,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
@@ -142,11 +142,11 @@ func (x *Customer) GetEmail() string {
 	return ""
 }
 
-func (x *Customer) GetAdditionalInfo() string {
+func (x *Customer) GetAdditionalInfo() map[string]string {
 	if x != nil {
 		return x.AdditionalInfo
 	}
-	return ""
+	return nil
 }
 
 func (x *Customer) GetUserId() int64 {
@@ -188,7 +188,7 @@ type CreateCustomerRequest struct {
 	Birthday       string                 `protobuf:"bytes,7,opt,name=birthday,proto3" json:"birthday,omitempty"`
 	Phone          string                 `protobuf:"bytes,8,opt,name=phone,proto3" json:"phone,omitempty"`
 	Email          string                 `protobuf:"bytes,9,opt,name=email,proto3" json:"email,omitempty"`
-	AdditionalInfo string                 `protobuf:"bytes,10,opt,name=additional_info,json=additionalInfo,proto3" json:"additional_info,omitempty"`
+	AdditionalInfo map[string]string      `protobuf:"bytes,10,rep,name=additional_info,json=additionalInfo,proto3" json:"additional_info,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	UserId         int64                  `protobuf:"varint,11,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
@@ -287,11 +287,11 @@ func (x *CreateCustomerRequest) GetEmail() string {
 	return ""
 }
 
-func (x *CreateCustomerRequest) GetAdditionalInfo() string {
+func (x *CreateCustomerRequest) GetAdditionalInfo() map[string]string {
 	if x != nil {
 		return x.AdditionalInfo
 	}
-	return ""
+	return nil
 }
 
 func (x *CreateCustomerRequest) GetUserId() int64 {
@@ -445,7 +445,7 @@ type UpdateCustomerRequest struct {
 	Birthday       string                 `protobuf:"bytes,8,opt,name=birthday,proto3" json:"birthday,omitempty"`
 	Phone          string                 `protobuf:"bytes,9,opt,name=phone,proto3" json:"phone,omitempty"`
 	Email          string                 `protobuf:"bytes,10,opt,name=email,proto3" json:"email,omitempty"`
-	AdditionalInfo string                 `protobuf:"bytes,11,opt,name=additional_info,json=additionalInfo,proto3" json:"additional_info,omitempty"`
+	AdditionalInfo map[string]string      `protobuf:"bytes,11,rep,name=additional_info,json=additionalInfo,proto3" json:"additional_info,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
@@ -550,11 +550,11 @@ func (x *UpdateCustomerRequest) GetEmail() string {
 	return ""
 }
 
-func (x *UpdateCustomerRequest) GetAdditionalInfo() string {
+func (x *UpdateCustomerRequest) GetAdditionalInfo() map[string]string {
 	if x != nil {
 		return x.AdditionalInfo
 	}
-	return ""
+	return nil
 }
 
 type UpdateCustomerResponse struct {
@@ -813,7 +813,7 @@ var File_customer_proto protoreflect.FileDescriptor
 
 const file_customer_proto_rawDesc = "" +
 	"\n" +
-	"\x0ecustomer.proto\x12\x05admin\"\xa2\x03\n" +
+	"\x0ecustomer.proto\x12\x05admin\"\x8a\x04\n" +
 	"\bCustomer\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x1d\n" +
@@ -827,15 +827,18 @@ const file_customer_proto_rawDesc = "" +
 	"\bbirthday\x18\b \x01(\tR\bbirthday\x12\x14\n" +
 	"\x05phone\x18\t \x01(\tR\x05phone\x12\x14\n" +
 	"\x05email\x18\n" +
-	" \x01(\tR\x05email\x12'\n" +
-	"\x0fadditional_info\x18\v \x01(\tR\x0eadditionalInfo\x12\x17\n" +
+	" \x01(\tR\x05email\x12L\n" +
+	"\x0fadditional_info\x18\v \x03(\v2#.admin.Customer.AdditionalInfoEntryR\x0eadditionalInfo\x12\x17\n" +
 	"\auser_id\x18\f \x01(\x03R\x06userId\x12\x1d\n" +
 	"\n" +
 	"created_at\x18\r \x01(\tR\tcreatedAt\x12\x1d\n" +
 	"\n" +
 	"updated_at\x18\x0e \x01(\tR\tupdatedAt\x12\x1d\n" +
 	"\n" +
-	"deleted_at\x18\x0f \x01(\tR\tdeletedAt\"\xc2\x02\n" +
+	"deleted_at\x18\x0f \x01(\tR\tdeletedAt\x1aA\n" +
+	"\x13AdditionalInfoEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xb7\x03\n" +
 	"\x15CreateCustomerRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x1d\n" +
 	"\n" +
@@ -847,16 +850,19 @@ const file_customer_proto_rawDesc = "" +
 	"\x06suffix\x18\x06 \x01(\tR\x06suffix\x12\x1a\n" +
 	"\bbirthday\x18\a \x01(\tR\bbirthday\x12\x14\n" +
 	"\x05phone\x18\b \x01(\tR\x05phone\x12\x14\n" +
-	"\x05email\x18\t \x01(\tR\x05email\x12'\n" +
+	"\x05email\x18\t \x01(\tR\x05email\x12Y\n" +
 	"\x0fadditional_info\x18\n" +
-	" \x01(\tR\x0eadditionalInfo\x12\x17\n" +
-	"\auser_id\x18\v \x01(\x03R\x06userId\"E\n" +
+	" \x03(\v20.admin.CreateCustomerRequest.AdditionalInfoEntryR\x0eadditionalInfo\x12\x17\n" +
+	"\auser_id\x18\v \x01(\x03R\x06userId\x1aA\n" +
+	"\x13AdditionalInfoEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"E\n" +
 	"\x16CreateCustomerResponse\x12+\n" +
 	"\bcustomer\x18\x01 \x01(\v2\x0f.admin.CustomerR\bcustomer\"$\n" +
 	"\x12GetCustomerRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"B\n" +
 	"\x13GetCustomerResponse\x12+\n" +
-	"\bcustomer\x18\x01 \x01(\v2\x0f.admin.CustomerR\bcustomer\"\xb9\x02\n" +
+	"\bcustomer\x18\x01 \x01(\v2\x0f.admin.CustomerR\bcustomer\"\xae\x03\n" +
 	"\x15UpdateCustomerRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x1d\n" +
@@ -870,8 +876,11 @@ const file_customer_proto_rawDesc = "" +
 	"\bbirthday\x18\b \x01(\tR\bbirthday\x12\x14\n" +
 	"\x05phone\x18\t \x01(\tR\x05phone\x12\x14\n" +
 	"\x05email\x18\n" +
-	" \x01(\tR\x05email\x12'\n" +
-	"\x0fadditional_info\x18\v \x01(\tR\x0eadditionalInfo\"E\n" +
+	" \x01(\tR\x05email\x12Y\n" +
+	"\x0fadditional_info\x18\v \x03(\v20.admin.UpdateCustomerRequest.AdditionalInfoEntryR\x0eadditionalInfo\x1aA\n" +
+	"\x13AdditionalInfoEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"E\n" +
 	"\x16UpdateCustomerResponse\x12+\n" +
 	"\bcustomer\x18\x01 \x01(\v2\x0f.admin.CustomerR\bcustomer\"'\n" +
 	"\x15DeleteCustomerRequest\x12\x0e\n" +
@@ -899,7 +908,7 @@ func file_customer_proto_rawDescGZIP() []byte {
 	return file_customer_proto_rawDescData
 }
 
-var file_customer_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_customer_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_customer_proto_goTypes = []any{
 	(*Customer)(nil),               // 0: admin.Customer
 	(*CreateCustomerRequest)(nil),  // 1: admin.CreateCustomerRequest
@@ -912,17 +921,23 @@ var file_customer_proto_goTypes = []any{
 	(*DeleteCustomerResponse)(nil), // 8: admin.DeleteCustomerResponse
 	(*ListCustomersRequest)(nil),   // 9: admin.ListCustomersRequest
 	(*ListCustomersResponse)(nil),  // 10: admin.ListCustomersResponse
+	nil,                            // 11: admin.Customer.AdditionalInfoEntry
+	nil,                            // 12: admin.CreateCustomerRequest.AdditionalInfoEntry
+	nil,                            // 13: admin.UpdateCustomerRequest.AdditionalInfoEntry
 }
 var file_customer_proto_depIdxs = []int32{
-	0, // 0: admin.CreateCustomerResponse.customer:type_name -> admin.Customer
-	0, // 1: admin.GetCustomerResponse.customer:type_name -> admin.Customer
-	0, // 2: admin.UpdateCustomerResponse.customer:type_name -> admin.Customer
-	0, // 3: admin.ListCustomersResponse.customers:type_name -> admin.Customer
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	11, // 0: admin.Customer.additional_info:type_name -> admin.Customer.AdditionalInfoEntry
+	12, // 1: admin.CreateCustomerRequest.additional_info:type_name -> admin.CreateCustomerRequest.AdditionalInfoEntry
+	0,  // 2: admin.CreateCustomerResponse.customer:type_name -> admin.Customer
+	0,  // 3: admin.GetCustomerResponse.customer:type_name -> admin.Customer
+	13, // 4: admin.UpdateCustomerRequest.additional_info:type_name -> admin.UpdateCustomerRequest.AdditionalInfoEntry
+	0,  // 5: admin.UpdateCustomerResponse.customer:type_name -> admin.Customer
+	0,  // 6: admin.ListCustomersResponse.customers:type_name -> admin.Customer
+	7,  // [7:7] is the sub-list for method output_type
+	7,  // [7:7] is the sub-list for method input_type
+	7,  // [7:7] is the sub-list for extension type_name
+	7,  // [7:7] is the sub-list for extension extendee
+	0,  // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_customer_proto_init() }
@@ -936,7 +951,7 @@ func file_customer_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_customer_proto_rawDesc), len(file_customer_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   11,
+			NumMessages:   14,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
