@@ -22,6 +22,7 @@ type AdminServer struct {
 	PermissionCtrl   *controller.PermissionController
 	OAuthCtrl        *controller.OAuthController
 	OrganizationCtrl *controller.OrganizationController
+	ProductCtrl      *controller.ProductController
 }
 
 func NewAdminServer(db *gorm.DB, authClient authpb.OAuthClient) *AdminServer {
@@ -40,6 +41,7 @@ func NewAdminServer(db *gorm.DB, authClient authpb.OAuthClient) *AdminServer {
 		PermissionCtrl:   controller.NewPermissionController(permissionService),
 		OAuthCtrl:        controller.NewOAuthController(oauthService),
 		OrganizationCtrl: controller.NewOrganizationController(service.NewOrganizationService(db)),
+		ProductCtrl:      controller.NewProductController(service.NewProductService(db)),
 	}
 }
 
@@ -155,6 +157,28 @@ func (s *AdminServer) DeleteOrganization(ctx context.Context, req *adminpb.Delet
 
 func (s *AdminServer) ListOrganizations(ctx context.Context, req *adminpb.ListOrganizationsRequest) (*adminpb.ListOrganizationsResponse, error) {
 	return s.OrganizationCtrl.List(ctx, req)
+}
+
+// --- Product CRUD ---
+
+func (s *AdminServer) CreateProduct(ctx context.Context, req *adminpb.CreateProductRequest) (*adminpb.CreateProductResponse, error) {
+	return s.ProductCtrl.Create(ctx, req)
+}
+
+func (s *AdminServer) GetProduct(ctx context.Context, req *adminpb.GetProductRequest) (*adminpb.GetProductResponse, error) {
+	return s.ProductCtrl.Get(ctx, req)
+}
+
+func (s *AdminServer) UpdateProduct(ctx context.Context, req *adminpb.UpdateProductRequest) (*adminpb.UpdateProductResponse, error) {
+	return s.ProductCtrl.Update(ctx, req)
+}
+
+func (s *AdminServer) DeleteProduct(ctx context.Context, req *adminpb.DeleteProductRequest) (*adminpb.DeleteProductResponse, error) {
+	return s.ProductCtrl.Delete(ctx, req)
+}
+
+func (s *AdminServer) ListProducts(ctx context.Context, req *adminpb.ListProductsRequest) (*adminpb.ListProductsResponse, error) {
+	return s.ProductCtrl.List(ctx, req)
 }
 
 // --- OAuth Proxy ---
