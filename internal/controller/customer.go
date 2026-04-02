@@ -2,8 +2,8 @@ package controller
 
 import (
 	"context"
-	"encoding/json"
 	"errors"
+	"fmt"
 	"time"
 
 	"google.golang.org/grpc/codes"
@@ -41,11 +41,12 @@ func (c *CustomerController) Create(ctx context.Context, req *adminpb.CreateCust
 		}
 	}
 
-	if req.AdditionalInfo != "" {
-		var info map[string]interface{}
-		if err := json.Unmarshal([]byte(req.AdditionalInfo), &info); err == nil {
-			customer.AdditionalInfo = info
+	if len(req.AdditionalInfo) > 0 {
+		info := make(map[string]interface{}, len(req.AdditionalInfo))
+		for k, v := range req.AdditionalInfo {
+			info[k] = v
 		}
+		customer.AdditionalInfo = info
 	}
 
 	if req.UserId != 0 {
@@ -118,11 +119,12 @@ func (c *CustomerController) Update(ctx context.Context, req *adminpb.UpdateCust
 			customer.Birthday = &t
 		}
 	}
-	if req.AdditionalInfo != "" {
-		var info map[string]interface{}
-		if err := json.Unmarshal([]byte(req.AdditionalInfo), &info); err == nil {
-			customer.AdditionalInfo = info
+	if len(req.AdditionalInfo) > 0 {
+		info := make(map[string]interface{}, len(req.AdditionalInfo))
+		for k, v := range req.AdditionalInfo {
+			info[k] = v
 		}
+		customer.AdditionalInfo = info
 	}
 
 	if err := c.Service.Update(ctx, customer, orgId); err != nil {
@@ -179,11 +181,9 @@ func ConvertCustomerToProto(c entity.Customer) *adminpb.Customer {
 		birthday = c.Birthday.Format("2006-01-02")
 	}
 
-	var additionalInfo string
-	if c.AdditionalInfo != nil {
-		if b, err := json.Marshal(c.AdditionalInfo); err == nil {
-			additionalInfo = string(b)
-		}
+	additionalInfo := make(map[string]string, len(c.AdditionalInfo))
+	for k, v := range c.AdditionalInfo {
+		additionalInfo[k] = fmt.Sprintf("%v", v)
 	}
 
 	var userId int64
