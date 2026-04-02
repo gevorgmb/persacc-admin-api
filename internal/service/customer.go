@@ -62,13 +62,27 @@ func (s *CustomerService) Delete(ctx context.Context, id int64, organizationID i
 	})
 }
 
-func (s *CustomerService) List(ctx context.Context, limit, offset int, organizationID int64) ([]entity.Customer, int64, error) {
+func (s *CustomerService) List(ctx context.Context, limit, offset int, organizationID int64, filters map[string]string) ([]entity.Customer, int64, error) {
 	var customers []entity.Customer
 	var total int64
 
 	query := s.DB.Model(&entity.Customer{}).
 		Joins("JOIN organization_customers ON organization_customers.customer_id = customers.id").
 		Where("organization_customers.organization_id = ?", organizationID)
+
+	if name, ok := filters["name"]; ok && name != "" {
+		query = query.Where("customers.name ILIKE ?", "%"+name+"%")
+	}
+	if email, ok := filters["email"]; ok && email != "" {
+		query = query.Where("customers.email ILIKE ?", "%"+email+"%")
+	}
+	if phone, ok := filters["phone"]; ok && phone != "" {
+		query = query.Where("customers.phone ILIKE ?", "%"+phone+"%")
+	}
+	if info, ok := filters["additional_info"]; ok && info != "" {
+		// Search in JSONB values by casting to text
+		query = query.Where("customers.additional_info::text ILIKE ?", "%"+info+"%")
+	}
 
 	query.Count(&total)
 	if err := query.Limit(limit).Offset(offset).Find(&customers).Error; err != nil {
