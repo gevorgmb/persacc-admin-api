@@ -23,6 +23,7 @@ type AdminServer struct {
 	OAuthCtrl        *controller.OAuthController
 	OrganizationCtrl *controller.OrganizationController
 	ProductCtrl      *controller.ProductController
+	ProductCategoryCtrl *controller.ProductCategoryController
 }
 
 func NewAdminServer(db *gorm.DB, authClient authpb.OAuthClient) *AdminServer {
@@ -42,6 +43,7 @@ func NewAdminServer(db *gorm.DB, authClient authpb.OAuthClient) *AdminServer {
 		OAuthCtrl:        controller.NewOAuthController(oauthService),
 		OrganizationCtrl: controller.NewOrganizationController(service.NewOrganizationService(db)),
 		ProductCtrl:      controller.NewProductController(service.NewProductService(db)),
+		ProductCategoryCtrl: controller.NewProductCategoryController(service.NewProductCategoryService(db)),
 	}
 }
 
@@ -179,6 +181,28 @@ func (s *AdminServer) DeleteProduct(ctx context.Context, req *adminpb.DeleteProd
 
 func (s *AdminServer) ListProducts(ctx context.Context, req *adminpb.ListProductsRequest) (*adminpb.ListProductsResponse, error) {
 	return s.ProductCtrl.List(ctx, req)
+}
+
+// --- Product Category CRUD ---
+
+func (s *AdminServer) CreateProductCategory(ctx context.Context, req *adminpb.CreateProductCategoryRequest) (*adminpb.CreateProductCategoryResponse, error) {
+	return s.ProductCategoryCtrl.Create(ctx, req)
+}
+
+func (s *AdminServer) GetProductCategory(ctx context.Context, req *adminpb.GetProductCategoryRequest) (*adminpb.GetProductCategoryResponse, error) {
+	return s.ProductCategoryCtrl.Get(ctx, req)
+}
+
+func (s *AdminServer) UpdateProductCategory(ctx context.Context, req *adminpb.UpdateProductCategoryRequest) (*adminpb.UpdateProductCategoryResponse, error) {
+	return s.ProductCategoryCtrl.Update(ctx, req)
+}
+
+func (s *AdminServer) DeleteProductCategory(ctx context.Context, req *adminpb.DeleteProductCategoryRequest) (*adminpb.DeleteProductCategoryResponse, error) {
+	return s.ProductCategoryCtrl.Delete(ctx, req)
+}
+
+func (s *AdminServer) ListProductCategories(ctx context.Context, req *adminpb.ListProductCategoriesRequest) (*adminpb.ListProductCategoriesResponse, error) {
+	return s.ProductCategoryCtrl.List(ctx, req)
 }
 
 // --- OAuth Proxy ---

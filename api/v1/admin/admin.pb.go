@@ -26,7 +26,7 @@ const file_admin_proto_rawDesc = "" +
 	"\n" +
 	"\vadmin.proto\x12\x05admin\x1a\n" +
 	"user.proto\x1a\n" +
-	"role.proto\x1a\x0ecustomer.proto\x1a\x10permission.proto\x1a\voauth.proto\x1a\x12organization.proto\x1a\rproduct.proto2\xb6\x14\n" +
+	"role.proto\x1a\x0ecustomer.proto\x1a\x10permission.proto\x1a\voauth.proto\x1a\x12organization.proto\x1a\rproduct.proto\x1a\x16product_category.proto2\xa1\x18\n" +
 	"\fAdminService\x12;\n" +
 	"\bRegister\x12\x16.admin.RegisterRequest\x1a\x17.admin.RegisterResponse\x12J\n" +
 	"\rOAuthRegister\x12\x1b.admin.OAuthRegisterRequest\x1a\x1c.admin.OAuthRegisterResponse\x12A\n" +
@@ -70,79 +70,94 @@ const file_admin_proto_rawDesc = "" +
 	"GetProduct\x12\x18.admin.GetProductRequest\x1a\x19.admin.GetProductResponse\x12J\n" +
 	"\rUpdateProduct\x12\x1b.admin.UpdateProductRequest\x1a\x1c.admin.UpdateProductResponse\x12J\n" +
 	"\rDeleteProduct\x12\x1b.admin.DeleteProductRequest\x1a\x1c.admin.DeleteProductResponse\x12G\n" +
-	"\fListProducts\x12\x1a.admin.ListProductsRequest\x1a\x1b.admin.ListProductsResponseB\x1eZ\x1cpersacc/api/v1/admin;adminpbb\x06proto3"
+	"\fListProducts\x12\x1a.admin.ListProductsRequest\x1a\x1b.admin.ListProductsResponse\x12b\n" +
+	"\x15CreateProductCategory\x12#.admin.CreateProductCategoryRequest\x1a$.admin.CreateProductCategoryResponse\x12Y\n" +
+	"\x12GetProductCategory\x12 .admin.GetProductCategoryRequest\x1a!.admin.GetProductCategoryResponse\x12b\n" +
+	"\x15UpdateProductCategory\x12#.admin.UpdateProductCategoryRequest\x1a$.admin.UpdateProductCategoryResponse\x12b\n" +
+	"\x15DeleteProductCategory\x12#.admin.DeleteProductCategoryRequest\x1a$.admin.DeleteProductCategoryResponse\x12b\n" +
+	"\x15ListProductCategories\x12#.admin.ListProductCategoriesRequest\x1a$.admin.ListProductCategoriesResponseB\x1eZ\x1cpersacc/api/v1/admin;adminpbb\x06proto3"
 
 var file_admin_proto_goTypes = []any{
-	(*RegisterRequest)(nil),            // 0: admin.RegisterRequest
-	(*OAuthRegisterRequest)(nil),       // 1: admin.OAuthRegisterRequest
-	(*OAuthTokenRequest)(nil),          // 2: admin.OAuthTokenRequest
-	(*OAuthVerifyRequest)(nil),         // 3: admin.OAuthVerifyRequest
-	(*OAuthRefreshRequest)(nil),        // 4: admin.OAuthRefreshRequest
-	(*CreateUserRequest)(nil),          // 5: admin.CreateUserRequest
-	(*GetUserRequest)(nil),             // 6: admin.GetUserRequest
-	(*UpdateUserRequest)(nil),          // 7: admin.UpdateUserRequest
-	(*DeleteUserRequest)(nil),          // 8: admin.DeleteUserRequest
-	(*ListUsersRequest)(nil),           // 9: admin.ListUsersRequest
-	(*CreateCustomerRequest)(nil),      // 10: admin.CreateCustomerRequest
-	(*GetCustomerRequest)(nil),         // 11: admin.GetCustomerRequest
-	(*UpdateCustomerRequest)(nil),      // 12: admin.UpdateCustomerRequest
-	(*DeleteCustomerRequest)(nil),      // 13: admin.DeleteCustomerRequest
-	(*ListCustomersRequest)(nil),       // 14: admin.ListCustomersRequest
-	(*CreateRoleRequest)(nil),          // 15: admin.CreateRoleRequest
-	(*GetRoleRequest)(nil),             // 16: admin.GetRoleRequest
-	(*UpdateRoleRequest)(nil),          // 17: admin.UpdateRoleRequest
-	(*DeleteRoleRequest)(nil),          // 18: admin.DeleteRoleRequest
-	(*ListRolesRequest)(nil),           // 19: admin.ListRolesRequest
-	(*CreatePermissionRequest)(nil),    // 20: admin.CreatePermissionRequest
-	(*GetPermissionRequest)(nil),       // 21: admin.GetPermissionRequest
-	(*UpdatePermissionRequest)(nil),    // 22: admin.UpdatePermissionRequest
-	(*DeletePermissionRequest)(nil),    // 23: admin.DeletePermissionRequest
-	(*ListPermissionsRequest)(nil),     // 24: admin.ListPermissionsRequest
-	(*CreateOrganizationRequest)(nil),  // 25: admin.CreateOrganizationRequest
-	(*GetOrganizationRequest)(nil),     // 26: admin.GetOrganizationRequest
-	(*UpdateOrganizationRequest)(nil),  // 27: admin.UpdateOrganizationRequest
-	(*DeleteOrganizationRequest)(nil),  // 28: admin.DeleteOrganizationRequest
-	(*ListOrganizationsRequest)(nil),   // 29: admin.ListOrganizationsRequest
-	(*CreateProductRequest)(nil),       // 30: admin.CreateProductRequest
-	(*GetProductRequest)(nil),          // 31: admin.GetProductRequest
-	(*UpdateProductRequest)(nil),       // 32: admin.UpdateProductRequest
-	(*DeleteProductRequest)(nil),       // 33: admin.DeleteProductRequest
-	(*ListProductsRequest)(nil),        // 34: admin.ListProductsRequest
-	(*RegisterResponse)(nil),           // 35: admin.RegisterResponse
-	(*OAuthRegisterResponse)(nil),      // 36: admin.OAuthRegisterResponse
-	(*OAuthTokenResponse)(nil),         // 37: admin.OAuthTokenResponse
-	(*OAuthVerifyResponse)(nil),        // 38: admin.OAuthVerifyResponse
-	(*OAuthRefreshResponse)(nil),       // 39: admin.OAuthRefreshResponse
-	(*CreateUserResponse)(nil),         // 40: admin.CreateUserResponse
-	(*GetUserResponse)(nil),            // 41: admin.GetUserResponse
-	(*UpdateUserResponse)(nil),         // 42: admin.UpdateUserResponse
-	(*DeleteUserResponse)(nil),         // 43: admin.DeleteUserResponse
-	(*ListUsersResponse)(nil),          // 44: admin.ListUsersResponse
-	(*CreateCustomerResponse)(nil),     // 45: admin.CreateCustomerResponse
-	(*GetCustomerResponse)(nil),        // 46: admin.GetCustomerResponse
-	(*UpdateCustomerResponse)(nil),     // 47: admin.UpdateCustomerResponse
-	(*DeleteCustomerResponse)(nil),     // 48: admin.DeleteCustomerResponse
-	(*ListCustomersResponse)(nil),      // 49: admin.ListCustomersResponse
-	(*CreateRoleResponse)(nil),         // 50: admin.CreateRoleResponse
-	(*GetRoleResponse)(nil),            // 51: admin.GetRoleResponse
-	(*UpdateRoleResponse)(nil),         // 52: admin.UpdateRoleResponse
-	(*DeleteRoleResponse)(nil),         // 53: admin.DeleteRoleResponse
-	(*ListRolesResponse)(nil),          // 54: admin.ListRolesResponse
-	(*CreatePermissionResponse)(nil),   // 55: admin.CreatePermissionResponse
-	(*GetPermissionResponse)(nil),      // 56: admin.GetPermissionResponse
-	(*UpdatePermissionResponse)(nil),   // 57: admin.UpdatePermissionResponse
-	(*DeletePermissionResponse)(nil),   // 58: admin.DeletePermissionResponse
-	(*ListPermissionsResponse)(nil),    // 59: admin.ListPermissionsResponse
-	(*CreateOrganizationResponse)(nil), // 60: admin.CreateOrganizationResponse
-	(*GetOrganizationResponse)(nil),    // 61: admin.GetOrganizationResponse
-	(*UpdateOrganizationResponse)(nil), // 62: admin.UpdateOrganizationResponse
-	(*DeleteOrganizationResponse)(nil), // 63: admin.DeleteOrganizationResponse
-	(*ListOrganizationsResponse)(nil),  // 64: admin.ListOrganizationsResponse
-	(*CreateProductResponse)(nil),      // 65: admin.CreateProductResponse
-	(*GetProductResponse)(nil),         // 66: admin.GetProductResponse
-	(*UpdateProductResponse)(nil),      // 67: admin.UpdateProductResponse
-	(*DeleteProductResponse)(nil),      // 68: admin.DeleteProductResponse
-	(*ListProductsResponse)(nil),       // 69: admin.ListProductsResponse
+	(*RegisterRequest)(nil),               // 0: admin.RegisterRequest
+	(*OAuthRegisterRequest)(nil),          // 1: admin.OAuthRegisterRequest
+	(*OAuthTokenRequest)(nil),             // 2: admin.OAuthTokenRequest
+	(*OAuthVerifyRequest)(nil),            // 3: admin.OAuthVerifyRequest
+	(*OAuthRefreshRequest)(nil),           // 4: admin.OAuthRefreshRequest
+	(*CreateUserRequest)(nil),             // 5: admin.CreateUserRequest
+	(*GetUserRequest)(nil),                // 6: admin.GetUserRequest
+	(*UpdateUserRequest)(nil),             // 7: admin.UpdateUserRequest
+	(*DeleteUserRequest)(nil),             // 8: admin.DeleteUserRequest
+	(*ListUsersRequest)(nil),              // 9: admin.ListUsersRequest
+	(*CreateCustomerRequest)(nil),         // 10: admin.CreateCustomerRequest
+	(*GetCustomerRequest)(nil),            // 11: admin.GetCustomerRequest
+	(*UpdateCustomerRequest)(nil),         // 12: admin.UpdateCustomerRequest
+	(*DeleteCustomerRequest)(nil),         // 13: admin.DeleteCustomerRequest
+	(*ListCustomersRequest)(nil),          // 14: admin.ListCustomersRequest
+	(*CreateRoleRequest)(nil),             // 15: admin.CreateRoleRequest
+	(*GetRoleRequest)(nil),                // 16: admin.GetRoleRequest
+	(*UpdateRoleRequest)(nil),             // 17: admin.UpdateRoleRequest
+	(*DeleteRoleRequest)(nil),             // 18: admin.DeleteRoleRequest
+	(*ListRolesRequest)(nil),              // 19: admin.ListRolesRequest
+	(*CreatePermissionRequest)(nil),       // 20: admin.CreatePermissionRequest
+	(*GetPermissionRequest)(nil),          // 21: admin.GetPermissionRequest
+	(*UpdatePermissionRequest)(nil),       // 22: admin.UpdatePermissionRequest
+	(*DeletePermissionRequest)(nil),       // 23: admin.DeletePermissionRequest
+	(*ListPermissionsRequest)(nil),        // 24: admin.ListPermissionsRequest
+	(*CreateOrganizationRequest)(nil),     // 25: admin.CreateOrganizationRequest
+	(*GetOrganizationRequest)(nil),        // 26: admin.GetOrganizationRequest
+	(*UpdateOrganizationRequest)(nil),     // 27: admin.UpdateOrganizationRequest
+	(*DeleteOrganizationRequest)(nil),     // 28: admin.DeleteOrganizationRequest
+	(*ListOrganizationsRequest)(nil),      // 29: admin.ListOrganizationsRequest
+	(*CreateProductRequest)(nil),          // 30: admin.CreateProductRequest
+	(*GetProductRequest)(nil),             // 31: admin.GetProductRequest
+	(*UpdateProductRequest)(nil),          // 32: admin.UpdateProductRequest
+	(*DeleteProductRequest)(nil),          // 33: admin.DeleteProductRequest
+	(*ListProductsRequest)(nil),           // 34: admin.ListProductsRequest
+	(*CreateProductCategoryRequest)(nil),  // 35: admin.CreateProductCategoryRequest
+	(*GetProductCategoryRequest)(nil),     // 36: admin.GetProductCategoryRequest
+	(*UpdateProductCategoryRequest)(nil),  // 37: admin.UpdateProductCategoryRequest
+	(*DeleteProductCategoryRequest)(nil),  // 38: admin.DeleteProductCategoryRequest
+	(*ListProductCategoriesRequest)(nil),  // 39: admin.ListProductCategoriesRequest
+	(*RegisterResponse)(nil),              // 40: admin.RegisterResponse
+	(*OAuthRegisterResponse)(nil),         // 41: admin.OAuthRegisterResponse
+	(*OAuthTokenResponse)(nil),            // 42: admin.OAuthTokenResponse
+	(*OAuthVerifyResponse)(nil),           // 43: admin.OAuthVerifyResponse
+	(*OAuthRefreshResponse)(nil),          // 44: admin.OAuthRefreshResponse
+	(*CreateUserResponse)(nil),            // 45: admin.CreateUserResponse
+	(*GetUserResponse)(nil),               // 46: admin.GetUserResponse
+	(*UpdateUserResponse)(nil),            // 47: admin.UpdateUserResponse
+	(*DeleteUserResponse)(nil),            // 48: admin.DeleteUserResponse
+	(*ListUsersResponse)(nil),             // 49: admin.ListUsersResponse
+	(*CreateCustomerResponse)(nil),        // 50: admin.CreateCustomerResponse
+	(*GetCustomerResponse)(nil),           // 51: admin.GetCustomerResponse
+	(*UpdateCustomerResponse)(nil),        // 52: admin.UpdateCustomerResponse
+	(*DeleteCustomerResponse)(nil),        // 53: admin.DeleteCustomerResponse
+	(*ListCustomersResponse)(nil),         // 54: admin.ListCustomersResponse
+	(*CreateRoleResponse)(nil),            // 55: admin.CreateRoleResponse
+	(*GetRoleResponse)(nil),               // 56: admin.GetRoleResponse
+	(*UpdateRoleResponse)(nil),            // 57: admin.UpdateRoleResponse
+	(*DeleteRoleResponse)(nil),            // 58: admin.DeleteRoleResponse
+	(*ListRolesResponse)(nil),             // 59: admin.ListRolesResponse
+	(*CreatePermissionResponse)(nil),      // 60: admin.CreatePermissionResponse
+	(*GetPermissionResponse)(nil),         // 61: admin.GetPermissionResponse
+	(*UpdatePermissionResponse)(nil),      // 62: admin.UpdatePermissionResponse
+	(*DeletePermissionResponse)(nil),      // 63: admin.DeletePermissionResponse
+	(*ListPermissionsResponse)(nil),       // 64: admin.ListPermissionsResponse
+	(*CreateOrganizationResponse)(nil),    // 65: admin.CreateOrganizationResponse
+	(*GetOrganizationResponse)(nil),       // 66: admin.GetOrganizationResponse
+	(*UpdateOrganizationResponse)(nil),    // 67: admin.UpdateOrganizationResponse
+	(*DeleteOrganizationResponse)(nil),    // 68: admin.DeleteOrganizationResponse
+	(*ListOrganizationsResponse)(nil),     // 69: admin.ListOrganizationsResponse
+	(*CreateProductResponse)(nil),         // 70: admin.CreateProductResponse
+	(*GetProductResponse)(nil),            // 71: admin.GetProductResponse
+	(*UpdateProductResponse)(nil),         // 72: admin.UpdateProductResponse
+	(*DeleteProductResponse)(nil),         // 73: admin.DeleteProductResponse
+	(*ListProductsResponse)(nil),          // 74: admin.ListProductsResponse
+	(*CreateProductCategoryResponse)(nil), // 75: admin.CreateProductCategoryResponse
+	(*GetProductCategoryResponse)(nil),    // 76: admin.GetProductCategoryResponse
+	(*UpdateProductCategoryResponse)(nil), // 77: admin.UpdateProductCategoryResponse
+	(*DeleteProductCategoryResponse)(nil), // 78: admin.DeleteProductCategoryResponse
+	(*ListProductCategoriesResponse)(nil), // 79: admin.ListProductCategoriesResponse
 }
 var file_admin_proto_depIdxs = []int32{
 	0,  // 0: admin.AdminService.Register:input_type -> admin.RegisterRequest
@@ -180,43 +195,53 @@ var file_admin_proto_depIdxs = []int32{
 	32, // 32: admin.AdminService.UpdateProduct:input_type -> admin.UpdateProductRequest
 	33, // 33: admin.AdminService.DeleteProduct:input_type -> admin.DeleteProductRequest
 	34, // 34: admin.AdminService.ListProducts:input_type -> admin.ListProductsRequest
-	35, // 35: admin.AdminService.Register:output_type -> admin.RegisterResponse
-	36, // 36: admin.AdminService.OAuthRegister:output_type -> admin.OAuthRegisterResponse
-	37, // 37: admin.AdminService.OAuthToken:output_type -> admin.OAuthTokenResponse
-	38, // 38: admin.AdminService.OAuthVerify:output_type -> admin.OAuthVerifyResponse
-	39, // 39: admin.AdminService.OAuthRefresh:output_type -> admin.OAuthRefreshResponse
-	40, // 40: admin.AdminService.CreateUser:output_type -> admin.CreateUserResponse
-	41, // 41: admin.AdminService.GetUser:output_type -> admin.GetUserResponse
-	42, // 42: admin.AdminService.UpdateUser:output_type -> admin.UpdateUserResponse
-	43, // 43: admin.AdminService.DeleteUser:output_type -> admin.DeleteUserResponse
-	44, // 44: admin.AdminService.ListUsers:output_type -> admin.ListUsersResponse
-	45, // 45: admin.AdminService.CreateCustomer:output_type -> admin.CreateCustomerResponse
-	46, // 46: admin.AdminService.GetCustomer:output_type -> admin.GetCustomerResponse
-	47, // 47: admin.AdminService.UpdateCustomer:output_type -> admin.UpdateCustomerResponse
-	48, // 48: admin.AdminService.DeleteCustomer:output_type -> admin.DeleteCustomerResponse
-	49, // 49: admin.AdminService.ListCustomers:output_type -> admin.ListCustomersResponse
-	50, // 50: admin.AdminService.CreateRole:output_type -> admin.CreateRoleResponse
-	51, // 51: admin.AdminService.GetRole:output_type -> admin.GetRoleResponse
-	52, // 52: admin.AdminService.UpdateRole:output_type -> admin.UpdateRoleResponse
-	53, // 53: admin.AdminService.DeleteRole:output_type -> admin.DeleteRoleResponse
-	54, // 54: admin.AdminService.ListRoles:output_type -> admin.ListRolesResponse
-	55, // 55: admin.AdminService.CreatePermission:output_type -> admin.CreatePermissionResponse
-	56, // 56: admin.AdminService.GetPermission:output_type -> admin.GetPermissionResponse
-	57, // 57: admin.AdminService.UpdatePermission:output_type -> admin.UpdatePermissionResponse
-	58, // 58: admin.AdminService.DeletePermission:output_type -> admin.DeletePermissionResponse
-	59, // 59: admin.AdminService.ListPermissions:output_type -> admin.ListPermissionsResponse
-	60, // 60: admin.AdminService.CreateOrganization:output_type -> admin.CreateOrganizationResponse
-	61, // 61: admin.AdminService.GetOrganization:output_type -> admin.GetOrganizationResponse
-	62, // 62: admin.AdminService.UpdateOrganization:output_type -> admin.UpdateOrganizationResponse
-	63, // 63: admin.AdminService.DeleteOrganization:output_type -> admin.DeleteOrganizationResponse
-	64, // 64: admin.AdminService.ListOrganizations:output_type -> admin.ListOrganizationsResponse
-	65, // 65: admin.AdminService.CreateProduct:output_type -> admin.CreateProductResponse
-	66, // 66: admin.AdminService.GetProduct:output_type -> admin.GetProductResponse
-	67, // 67: admin.AdminService.UpdateProduct:output_type -> admin.UpdateProductResponse
-	68, // 68: admin.AdminService.DeleteProduct:output_type -> admin.DeleteProductResponse
-	69, // 69: admin.AdminService.ListProducts:output_type -> admin.ListProductsResponse
-	35, // [35:70] is the sub-list for method output_type
-	0,  // [0:35] is the sub-list for method input_type
+	35, // 35: admin.AdminService.CreateProductCategory:input_type -> admin.CreateProductCategoryRequest
+	36, // 36: admin.AdminService.GetProductCategory:input_type -> admin.GetProductCategoryRequest
+	37, // 37: admin.AdminService.UpdateProductCategory:input_type -> admin.UpdateProductCategoryRequest
+	38, // 38: admin.AdminService.DeleteProductCategory:input_type -> admin.DeleteProductCategoryRequest
+	39, // 39: admin.AdminService.ListProductCategories:input_type -> admin.ListProductCategoriesRequest
+	40, // 40: admin.AdminService.Register:output_type -> admin.RegisterResponse
+	41, // 41: admin.AdminService.OAuthRegister:output_type -> admin.OAuthRegisterResponse
+	42, // 42: admin.AdminService.OAuthToken:output_type -> admin.OAuthTokenResponse
+	43, // 43: admin.AdminService.OAuthVerify:output_type -> admin.OAuthVerifyResponse
+	44, // 44: admin.AdminService.OAuthRefresh:output_type -> admin.OAuthRefreshResponse
+	45, // 45: admin.AdminService.CreateUser:output_type -> admin.CreateUserResponse
+	46, // 46: admin.AdminService.GetUser:output_type -> admin.GetUserResponse
+	47, // 47: admin.AdminService.UpdateUser:output_type -> admin.UpdateUserResponse
+	48, // 48: admin.AdminService.DeleteUser:output_type -> admin.DeleteUserResponse
+	49, // 49: admin.AdminService.ListUsers:output_type -> admin.ListUsersResponse
+	50, // 50: admin.AdminService.CreateCustomer:output_type -> admin.CreateCustomerResponse
+	51, // 51: admin.AdminService.GetCustomer:output_type -> admin.GetCustomerResponse
+	52, // 52: admin.AdminService.UpdateCustomer:output_type -> admin.UpdateCustomerResponse
+	53, // 53: admin.AdminService.DeleteCustomer:output_type -> admin.DeleteCustomerResponse
+	54, // 54: admin.AdminService.ListCustomers:output_type -> admin.ListCustomersResponse
+	55, // 55: admin.AdminService.CreateRole:output_type -> admin.CreateRoleResponse
+	56, // 56: admin.AdminService.GetRole:output_type -> admin.GetRoleResponse
+	57, // 57: admin.AdminService.UpdateRole:output_type -> admin.UpdateRoleResponse
+	58, // 58: admin.AdminService.DeleteRole:output_type -> admin.DeleteRoleResponse
+	59, // 59: admin.AdminService.ListRoles:output_type -> admin.ListRolesResponse
+	60, // 60: admin.AdminService.CreatePermission:output_type -> admin.CreatePermissionResponse
+	61, // 61: admin.AdminService.GetPermission:output_type -> admin.GetPermissionResponse
+	62, // 62: admin.AdminService.UpdatePermission:output_type -> admin.UpdatePermissionResponse
+	63, // 63: admin.AdminService.DeletePermission:output_type -> admin.DeletePermissionResponse
+	64, // 64: admin.AdminService.ListPermissions:output_type -> admin.ListPermissionsResponse
+	65, // 65: admin.AdminService.CreateOrganization:output_type -> admin.CreateOrganizationResponse
+	66, // 66: admin.AdminService.GetOrganization:output_type -> admin.GetOrganizationResponse
+	67, // 67: admin.AdminService.UpdateOrganization:output_type -> admin.UpdateOrganizationResponse
+	68, // 68: admin.AdminService.DeleteOrganization:output_type -> admin.DeleteOrganizationResponse
+	69, // 69: admin.AdminService.ListOrganizations:output_type -> admin.ListOrganizationsResponse
+	70, // 70: admin.AdminService.CreateProduct:output_type -> admin.CreateProductResponse
+	71, // 71: admin.AdminService.GetProduct:output_type -> admin.GetProductResponse
+	72, // 72: admin.AdminService.UpdateProduct:output_type -> admin.UpdateProductResponse
+	73, // 73: admin.AdminService.DeleteProduct:output_type -> admin.DeleteProductResponse
+	74, // 74: admin.AdminService.ListProducts:output_type -> admin.ListProductsResponse
+	75, // 75: admin.AdminService.CreateProductCategory:output_type -> admin.CreateProductCategoryResponse
+	76, // 76: admin.AdminService.GetProductCategory:output_type -> admin.GetProductCategoryResponse
+	77, // 77: admin.AdminService.UpdateProductCategory:output_type -> admin.UpdateProductCategoryResponse
+	78, // 78: admin.AdminService.DeleteProductCategory:output_type -> admin.DeleteProductCategoryResponse
+	79, // 79: admin.AdminService.ListProductCategories:output_type -> admin.ListProductCategoriesResponse
+	40, // [40:80] is the sub-list for method output_type
+	0,  // [0:40] is the sub-list for method input_type
 	0,  // [0:0] is the sub-list for extension type_name
 	0,  // [0:0] is the sub-list for extension extendee
 	0,  // [0:0] is the sub-list for field type_name
@@ -234,6 +259,7 @@ func file_admin_proto_init() {
 	file_oauth_proto_init()
 	file_organization_proto_init()
 	file_product_proto_init()
+	file_product_category_proto_init()
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{

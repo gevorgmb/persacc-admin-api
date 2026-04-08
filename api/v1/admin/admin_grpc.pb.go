@@ -19,41 +19,46 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	AdminService_Register_FullMethodName           = "/admin.AdminService/Register"
-	AdminService_OAuthRegister_FullMethodName      = "/admin.AdminService/OAuthRegister"
-	AdminService_OAuthToken_FullMethodName         = "/admin.AdminService/OAuthToken"
-	AdminService_OAuthVerify_FullMethodName        = "/admin.AdminService/OAuthVerify"
-	AdminService_OAuthRefresh_FullMethodName       = "/admin.AdminService/OAuthRefresh"
-	AdminService_CreateUser_FullMethodName         = "/admin.AdminService/CreateUser"
-	AdminService_GetUser_FullMethodName            = "/admin.AdminService/GetUser"
-	AdminService_UpdateUser_FullMethodName         = "/admin.AdminService/UpdateUser"
-	AdminService_DeleteUser_FullMethodName         = "/admin.AdminService/DeleteUser"
-	AdminService_ListUsers_FullMethodName          = "/admin.AdminService/ListUsers"
-	AdminService_CreateCustomer_FullMethodName     = "/admin.AdminService/CreateCustomer"
-	AdminService_GetCustomer_FullMethodName        = "/admin.AdminService/GetCustomer"
-	AdminService_UpdateCustomer_FullMethodName     = "/admin.AdminService/UpdateCustomer"
-	AdminService_DeleteCustomer_FullMethodName     = "/admin.AdminService/DeleteCustomer"
-	AdminService_ListCustomers_FullMethodName      = "/admin.AdminService/ListCustomers"
-	AdminService_CreateRole_FullMethodName         = "/admin.AdminService/CreateRole"
-	AdminService_GetRole_FullMethodName            = "/admin.AdminService/GetRole"
-	AdminService_UpdateRole_FullMethodName         = "/admin.AdminService/UpdateRole"
-	AdminService_DeleteRole_FullMethodName         = "/admin.AdminService/DeleteRole"
-	AdminService_ListRoles_FullMethodName          = "/admin.AdminService/ListRoles"
-	AdminService_CreatePermission_FullMethodName   = "/admin.AdminService/CreatePermission"
-	AdminService_GetPermission_FullMethodName      = "/admin.AdminService/GetPermission"
-	AdminService_UpdatePermission_FullMethodName   = "/admin.AdminService/UpdatePermission"
-	AdminService_DeletePermission_FullMethodName   = "/admin.AdminService/DeletePermission"
-	AdminService_ListPermissions_FullMethodName    = "/admin.AdminService/ListPermissions"
-	AdminService_CreateOrganization_FullMethodName = "/admin.AdminService/CreateOrganization"
-	AdminService_GetOrganization_FullMethodName    = "/admin.AdminService/GetOrganization"
-	AdminService_UpdateOrganization_FullMethodName = "/admin.AdminService/UpdateOrganization"
-	AdminService_DeleteOrganization_FullMethodName = "/admin.AdminService/DeleteOrganization"
-	AdminService_ListOrganizations_FullMethodName  = "/admin.AdminService/ListOrganizations"
-	AdminService_CreateProduct_FullMethodName      = "/admin.AdminService/CreateProduct"
-	AdminService_GetProduct_FullMethodName         = "/admin.AdminService/GetProduct"
-	AdminService_UpdateProduct_FullMethodName      = "/admin.AdminService/UpdateProduct"
-	AdminService_DeleteProduct_FullMethodName      = "/admin.AdminService/DeleteProduct"
-	AdminService_ListProducts_FullMethodName       = "/admin.AdminService/ListProducts"
+	AdminService_Register_FullMethodName              = "/admin.AdminService/Register"
+	AdminService_OAuthRegister_FullMethodName         = "/admin.AdminService/OAuthRegister"
+	AdminService_OAuthToken_FullMethodName            = "/admin.AdminService/OAuthToken"
+	AdminService_OAuthVerify_FullMethodName           = "/admin.AdminService/OAuthVerify"
+	AdminService_OAuthRefresh_FullMethodName          = "/admin.AdminService/OAuthRefresh"
+	AdminService_CreateUser_FullMethodName            = "/admin.AdminService/CreateUser"
+	AdminService_GetUser_FullMethodName               = "/admin.AdminService/GetUser"
+	AdminService_UpdateUser_FullMethodName            = "/admin.AdminService/UpdateUser"
+	AdminService_DeleteUser_FullMethodName            = "/admin.AdminService/DeleteUser"
+	AdminService_ListUsers_FullMethodName             = "/admin.AdminService/ListUsers"
+	AdminService_CreateCustomer_FullMethodName        = "/admin.AdminService/CreateCustomer"
+	AdminService_GetCustomer_FullMethodName           = "/admin.AdminService/GetCustomer"
+	AdminService_UpdateCustomer_FullMethodName        = "/admin.AdminService/UpdateCustomer"
+	AdminService_DeleteCustomer_FullMethodName        = "/admin.AdminService/DeleteCustomer"
+	AdminService_ListCustomers_FullMethodName         = "/admin.AdminService/ListCustomers"
+	AdminService_CreateRole_FullMethodName            = "/admin.AdminService/CreateRole"
+	AdminService_GetRole_FullMethodName               = "/admin.AdminService/GetRole"
+	AdminService_UpdateRole_FullMethodName            = "/admin.AdminService/UpdateRole"
+	AdminService_DeleteRole_FullMethodName            = "/admin.AdminService/DeleteRole"
+	AdminService_ListRoles_FullMethodName             = "/admin.AdminService/ListRoles"
+	AdminService_CreatePermission_FullMethodName      = "/admin.AdminService/CreatePermission"
+	AdminService_GetPermission_FullMethodName         = "/admin.AdminService/GetPermission"
+	AdminService_UpdatePermission_FullMethodName      = "/admin.AdminService/UpdatePermission"
+	AdminService_DeletePermission_FullMethodName      = "/admin.AdminService/DeletePermission"
+	AdminService_ListPermissions_FullMethodName       = "/admin.AdminService/ListPermissions"
+	AdminService_CreateOrganization_FullMethodName    = "/admin.AdminService/CreateOrganization"
+	AdminService_GetOrganization_FullMethodName       = "/admin.AdminService/GetOrganization"
+	AdminService_UpdateOrganization_FullMethodName    = "/admin.AdminService/UpdateOrganization"
+	AdminService_DeleteOrganization_FullMethodName    = "/admin.AdminService/DeleteOrganization"
+	AdminService_ListOrganizations_FullMethodName     = "/admin.AdminService/ListOrganizations"
+	AdminService_CreateProduct_FullMethodName         = "/admin.AdminService/CreateProduct"
+	AdminService_GetProduct_FullMethodName            = "/admin.AdminService/GetProduct"
+	AdminService_UpdateProduct_FullMethodName         = "/admin.AdminService/UpdateProduct"
+	AdminService_DeleteProduct_FullMethodName         = "/admin.AdminService/DeleteProduct"
+	AdminService_ListProducts_FullMethodName          = "/admin.AdminService/ListProducts"
+	AdminService_CreateProductCategory_FullMethodName = "/admin.AdminService/CreateProductCategory"
+	AdminService_GetProductCategory_FullMethodName    = "/admin.AdminService/GetProductCategory"
+	AdminService_UpdateProductCategory_FullMethodName = "/admin.AdminService/UpdateProductCategory"
+	AdminService_DeleteProductCategory_FullMethodName = "/admin.AdminService/DeleteProductCategory"
+	AdminService_ListProductCategories_FullMethodName = "/admin.AdminService/ListProductCategories"
 )
 
 // AdminServiceClient is the client API for AdminService service.
@@ -95,6 +100,11 @@ type AdminServiceClient interface {
 	UpdateProduct(ctx context.Context, in *UpdateProductRequest, opts ...grpc.CallOption) (*UpdateProductResponse, error)
 	DeleteProduct(ctx context.Context, in *DeleteProductRequest, opts ...grpc.CallOption) (*DeleteProductResponse, error)
 	ListProducts(ctx context.Context, in *ListProductsRequest, opts ...grpc.CallOption) (*ListProductsResponse, error)
+	CreateProductCategory(ctx context.Context, in *CreateProductCategoryRequest, opts ...grpc.CallOption) (*CreateProductCategoryResponse, error)
+	GetProductCategory(ctx context.Context, in *GetProductCategoryRequest, opts ...grpc.CallOption) (*GetProductCategoryResponse, error)
+	UpdateProductCategory(ctx context.Context, in *UpdateProductCategoryRequest, opts ...grpc.CallOption) (*UpdateProductCategoryResponse, error)
+	DeleteProductCategory(ctx context.Context, in *DeleteProductCategoryRequest, opts ...grpc.CallOption) (*DeleteProductCategoryResponse, error)
+	ListProductCategories(ctx context.Context, in *ListProductCategoriesRequest, opts ...grpc.CallOption) (*ListProductCategoriesResponse, error)
 }
 
 type adminServiceClient struct {
@@ -455,6 +465,56 @@ func (c *adminServiceClient) ListProducts(ctx context.Context, in *ListProductsR
 	return out, nil
 }
 
+func (c *adminServiceClient) CreateProductCategory(ctx context.Context, in *CreateProductCategoryRequest, opts ...grpc.CallOption) (*CreateProductCategoryResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateProductCategoryResponse)
+	err := c.cc.Invoke(ctx, AdminService_CreateProductCategory_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) GetProductCategory(ctx context.Context, in *GetProductCategoryRequest, opts ...grpc.CallOption) (*GetProductCategoryResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetProductCategoryResponse)
+	err := c.cc.Invoke(ctx, AdminService_GetProductCategory_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) UpdateProductCategory(ctx context.Context, in *UpdateProductCategoryRequest, opts ...grpc.CallOption) (*UpdateProductCategoryResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateProductCategoryResponse)
+	err := c.cc.Invoke(ctx, AdminService_UpdateProductCategory_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) DeleteProductCategory(ctx context.Context, in *DeleteProductCategoryRequest, opts ...grpc.CallOption) (*DeleteProductCategoryResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteProductCategoryResponse)
+	err := c.cc.Invoke(ctx, AdminService_DeleteProductCategory_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) ListProductCategories(ctx context.Context, in *ListProductCategoriesRequest, opts ...grpc.CallOption) (*ListProductCategoriesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListProductCategoriesResponse)
+	err := c.cc.Invoke(ctx, AdminService_ListProductCategories_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AdminServiceServer is the server API for AdminService service.
 // All implementations must embed UnimplementedAdminServiceServer
 // for forward compatibility.
@@ -494,6 +554,11 @@ type AdminServiceServer interface {
 	UpdateProduct(context.Context, *UpdateProductRequest) (*UpdateProductResponse, error)
 	DeleteProduct(context.Context, *DeleteProductRequest) (*DeleteProductResponse, error)
 	ListProducts(context.Context, *ListProductsRequest) (*ListProductsResponse, error)
+	CreateProductCategory(context.Context, *CreateProductCategoryRequest) (*CreateProductCategoryResponse, error)
+	GetProductCategory(context.Context, *GetProductCategoryRequest) (*GetProductCategoryResponse, error)
+	UpdateProductCategory(context.Context, *UpdateProductCategoryRequest) (*UpdateProductCategoryResponse, error)
+	DeleteProductCategory(context.Context, *DeleteProductCategoryRequest) (*DeleteProductCategoryResponse, error)
+	ListProductCategories(context.Context, *ListProductCategoriesRequest) (*ListProductCategoriesResponse, error)
 	mustEmbedUnimplementedAdminServiceServer()
 }
 
@@ -608,6 +673,21 @@ func (UnimplementedAdminServiceServer) DeleteProduct(context.Context, *DeletePro
 }
 func (UnimplementedAdminServiceServer) ListProducts(context.Context, *ListProductsRequest) (*ListProductsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListProducts not implemented")
+}
+func (UnimplementedAdminServiceServer) CreateProductCategory(context.Context, *CreateProductCategoryRequest) (*CreateProductCategoryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateProductCategory not implemented")
+}
+func (UnimplementedAdminServiceServer) GetProductCategory(context.Context, *GetProductCategoryRequest) (*GetProductCategoryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetProductCategory not implemented")
+}
+func (UnimplementedAdminServiceServer) UpdateProductCategory(context.Context, *UpdateProductCategoryRequest) (*UpdateProductCategoryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateProductCategory not implemented")
+}
+func (UnimplementedAdminServiceServer) DeleteProductCategory(context.Context, *DeleteProductCategoryRequest) (*DeleteProductCategoryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteProductCategory not implemented")
+}
+func (UnimplementedAdminServiceServer) ListProductCategories(context.Context, *ListProductCategoriesRequest) (*ListProductCategoriesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListProductCategories not implemented")
 }
 func (UnimplementedAdminServiceServer) mustEmbedUnimplementedAdminServiceServer() {}
 func (UnimplementedAdminServiceServer) testEmbeddedByValue()                      {}
@@ -1260,6 +1340,96 @@ func _AdminService_ListProducts_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AdminService_CreateProductCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateProductCategoryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).CreateProductCategory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_CreateProductCategory_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).CreateProductCategory(ctx, req.(*CreateProductCategoryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_GetProductCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetProductCategoryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).GetProductCategory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_GetProductCategory_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).GetProductCategory(ctx, req.(*GetProductCategoryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_UpdateProductCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateProductCategoryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).UpdateProductCategory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_UpdateProductCategory_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).UpdateProductCategory(ctx, req.(*UpdateProductCategoryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_DeleteProductCategory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteProductCategoryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).DeleteProductCategory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_DeleteProductCategory_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).DeleteProductCategory(ctx, req.(*DeleteProductCategoryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_ListProductCategories_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListProductCategoriesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).ListProductCategories(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_ListProductCategories_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).ListProductCategories(ctx, req.(*ListProductCategoriesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AdminService_ServiceDesc is the grpc.ServiceDesc for AdminService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1406,6 +1576,26 @@ var AdminService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListProducts",
 			Handler:    _AdminService_ListProducts_Handler,
+		},
+		{
+			MethodName: "CreateProductCategory",
+			Handler:    _AdminService_CreateProductCategory_Handler,
+		},
+		{
+			MethodName: "GetProductCategory",
+			Handler:    _AdminService_GetProductCategory_Handler,
+		},
+		{
+			MethodName: "UpdateProductCategory",
+			Handler:    _AdminService_UpdateProductCategory_Handler,
+		},
+		{
+			MethodName: "DeleteProductCategory",
+			Handler:    _AdminService_DeleteProductCategory_Handler,
+		},
+		{
+			MethodName: "ListProductCategories",
+			Handler:    _AdminService_ListProductCategories_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
