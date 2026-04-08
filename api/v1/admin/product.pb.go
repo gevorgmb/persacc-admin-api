@@ -32,6 +32,9 @@ type Product struct {
 	UpdatedAt         string                 `protobuf:"bytes,7,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
 	DeletedAt         string                 `protobuf:"bytes,8,opt,name=deleted_at,json=deletedAt,proto3" json:"deleted_at,omitempty"`
 	AdditionalDetails map[string]string      `protobuf:"bytes,9,rep,name=additional_details,json=additionalDetails,proto3" json:"additional_details,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	CategoryId        int64                  `protobuf:"varint,10,opt,name=category_id,json=categoryId,proto3" json:"category_id,omitempty"`
+	VendorId          int64                  `protobuf:"varint,11,opt,name=vendor_id,json=vendorId,proto3" json:"vendor_id,omitempty"`
+	VendorProductCode string                 `protobuf:"bytes,12,opt,name=vendor_product_code,json=vendorProductCode,proto3" json:"vendor_product_code,omitempty"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -129,12 +132,36 @@ func (x *Product) GetAdditionalDetails() map[string]string {
 	return nil
 }
 
+func (x *Product) GetCategoryId() int64 {
+	if x != nil {
+		return x.CategoryId
+	}
+	return 0
+}
+
+func (x *Product) GetVendorId() int64 {
+	if x != nil {
+		return x.VendorId
+	}
+	return 0
+}
+
+func (x *Product) GetVendorProductCode() string {
+	if x != nil {
+		return x.VendorProductCode
+	}
+	return ""
+}
+
 type CreateProductRequest struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
 	Sku               string                 `protobuf:"bytes,1,opt,name=sku,proto3" json:"sku,omitempty"`
 	Name              string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	Description       string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
 	AdditionalDetails map[string]string      `protobuf:"bytes,4,rep,name=additional_details,json=additionalDetails,proto3" json:"additional_details,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	CategoryId        int64                  `protobuf:"varint,5,opt,name=category_id,json=categoryId,proto3" json:"category_id,omitempty"`
+	VendorId          int64                  `protobuf:"varint,6,opt,name=vendor_id,json=vendorId,proto3" json:"vendor_id,omitempty"`
+	VendorProductCode string                 `protobuf:"bytes,7,opt,name=vendor_product_code,json=vendorProductCode,proto3" json:"vendor_product_code,omitempty"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -195,6 +222,27 @@ func (x *CreateProductRequest) GetAdditionalDetails() map[string]string {
 		return x.AdditionalDetails
 	}
 	return nil
+}
+
+func (x *CreateProductRequest) GetCategoryId() int64 {
+	if x != nil {
+		return x.CategoryId
+	}
+	return 0
+}
+
+func (x *CreateProductRequest) GetVendorId() int64 {
+	if x != nil {
+		return x.VendorId
+	}
+	return 0
+}
+
+func (x *CreateProductRequest) GetVendorProductCode() string {
+	if x != nil {
+		return x.VendorProductCode
+	}
+	return ""
 }
 
 type CreateProductResponse struct {
@@ -336,6 +384,9 @@ type UpdateProductRequest struct {
 	Name              string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
 	Description       string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
 	AdditionalDetails map[string]string      `protobuf:"bytes,5,rep,name=additional_details,json=additionalDetails,proto3" json:"additional_details,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	CategoryId        int64                  `protobuf:"varint,6,opt,name=category_id,json=categoryId,proto3" json:"category_id,omitempty"`
+	VendorId          int64                  `protobuf:"varint,7,opt,name=vendor_id,json=vendorId,proto3" json:"vendor_id,omitempty"`
+	VendorProductCode string                 `protobuf:"bytes,8,opt,name=vendor_product_code,json=vendorProductCode,proto3" json:"vendor_product_code,omitempty"`
 	unknownFields     protoimpl.UnknownFields
 	sizeCache         protoimpl.SizeCache
 }
@@ -403,6 +454,27 @@ func (x *UpdateProductRequest) GetAdditionalDetails() map[string]string {
 		return x.AdditionalDetails
 	}
 	return nil
+}
+
+func (x *UpdateProductRequest) GetCategoryId() int64 {
+	if x != nil {
+		return x.CategoryId
+	}
+	return 0
+}
+
+func (x *UpdateProductRequest) GetVendorId() int64 {
+	if x != nil {
+		return x.VendorId
+	}
+	return 0
+}
+
+func (x *UpdateProductRequest) GetVendorProductCode() string {
+	if x != nil {
+		return x.VendorProductCode
+	}
+	return ""
 }
 
 type UpdateProductResponse struct {
@@ -685,7 +757,7 @@ var File_product_proto protoreflect.FileDescriptor
 
 const file_product_proto_rawDesc = "" +
 	"\n" +
-	"\rproduct.proto\x12\x05admin\"\x83\x03\n" +
+	"\rproduct.proto\x12\x05admin\"\xf1\x03\n" +
 	"\aProduct\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12'\n" +
 	"\x0forganization_id\x18\x02 \x01(\x03R\x0eorganizationId\x12\x10\n" +
@@ -698,15 +770,24 @@ const file_product_proto_rawDesc = "" +
 	"updated_at\x18\a \x01(\tR\tupdatedAt\x12\x1d\n" +
 	"\n" +
 	"deleted_at\x18\b \x01(\tR\tdeletedAt\x12T\n" +
-	"\x12additional_details\x18\t \x03(\v2%.admin.Product.AdditionalDetailsEntryR\x11additionalDetails\x1aD\n" +
+	"\x12additional_details\x18\t \x03(\v2%.admin.Product.AdditionalDetailsEntryR\x11additionalDetails\x12\x1f\n" +
+	"\vcategory_id\x18\n" +
+	" \x01(\x03R\n" +
+	"categoryId\x12\x1b\n" +
+	"\tvendor_id\x18\v \x01(\x03R\bvendorId\x12.\n" +
+	"\x13vendor_product_code\x18\f \x01(\tR\x11vendorProductCode\x1aD\n" +
 	"\x16AdditionalDetailsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
-	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x87\x02\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\xf5\x02\n" +
 	"\x14CreateProductRequest\x12\x10\n" +
 	"\x03sku\x18\x01 \x01(\tR\x03sku\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x03 \x01(\tR\vdescription\x12a\n" +
-	"\x12additional_details\x18\x04 \x03(\v22.admin.CreateProductRequest.AdditionalDetailsEntryR\x11additionalDetails\x1aD\n" +
+	"\x12additional_details\x18\x04 \x03(\v22.admin.CreateProductRequest.AdditionalDetailsEntryR\x11additionalDetails\x12\x1f\n" +
+	"\vcategory_id\x18\x05 \x01(\x03R\n" +
+	"categoryId\x12\x1b\n" +
+	"\tvendor_id\x18\x06 \x01(\x03R\bvendorId\x12.\n" +
+	"\x13vendor_product_code\x18\a \x01(\tR\x11vendorProductCode\x1aD\n" +
 	"\x16AdditionalDetailsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"A\n" +
@@ -715,13 +796,17 @@ const file_product_proto_rawDesc = "" +
 	"\x11GetProductRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\">\n" +
 	"\x12GetProductResponse\x12(\n" +
-	"\aproduct\x18\x01 \x01(\v2\x0e.admin.ProductR\aproduct\"\x97\x02\n" +
+	"\aproduct\x18\x01 \x01(\v2\x0e.admin.ProductR\aproduct\"\x85\x03\n" +
 	"\x14UpdateProductRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x10\n" +
 	"\x03sku\x18\x02 \x01(\tR\x03sku\x12\x12\n" +
 	"\x04name\x18\x03 \x01(\tR\x04name\x12 \n" +
 	"\vdescription\x18\x04 \x01(\tR\vdescription\x12a\n" +
-	"\x12additional_details\x18\x05 \x03(\v22.admin.UpdateProductRequest.AdditionalDetailsEntryR\x11additionalDetails\x1aD\n" +
+	"\x12additional_details\x18\x05 \x03(\v22.admin.UpdateProductRequest.AdditionalDetailsEntryR\x11additionalDetails\x12\x1f\n" +
+	"\vcategory_id\x18\x06 \x01(\x03R\n" +
+	"categoryId\x12\x1b\n" +
+	"\tvendor_id\x18\a \x01(\x03R\bvendorId\x12.\n" +
+	"\x13vendor_product_code\x18\b \x01(\tR\x11vendorProductCode\x1aD\n" +
 	"\x16AdditionalDetailsEntry\x12\x10\n" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
 	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"A\n" +
