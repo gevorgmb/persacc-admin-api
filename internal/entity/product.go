@@ -15,6 +15,7 @@ type Product struct {
 	CreatedAt      time.Time      `gorm:"not null;default:now()"`
 	UpdatedAt      time.Time      `gorm:"not null;default:now()"`
 	DeletedAt      gorm.DeletedAt `gorm:"index"`
+	ProductDetails *ProductDetail `gorm:"foreignKey:ProductID"`
 }
 
 func (Product) TableName() string {

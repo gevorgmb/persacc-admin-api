@@ -36,6 +36,15 @@ func (c *ProductController) Create(ctx context.Context, req *adminpb.CreateProdu
 		product.Description = &desc
 	}
 
+	if len(req.AdditionalDetails) > 0 {
+		product.ProductDetails = &entity.ProductDetail{
+			AdditionalDetails: make(map[string]interface{}),
+		}
+		for k, v := range req.AdditionalDetails {
+			product.ProductDetails.AdditionalDetails[k] = v
+		}
+	}
+
 	if err := c.Service.Create(ctx, &product); err != nil {
 		return nil, status.Errorf(codes.Internal, "failed to create product: %v", err)
 	}
@@ -79,6 +88,19 @@ func (c *ProductController) Update(ctx context.Context, req *adminpb.UpdateProdu
 	if req.Description != "" {
 		desc := req.Description
 		product.Description = &desc
+	}
+
+	if len(req.AdditionalDetails) > 0 {
+		if product.ProductDetails == nil {
+			product.ProductDetails = &entity.ProductDetail{
+				AdditionalDetails: make(map[string]interface{}),
+			}
+		} else if product.ProductDetails.AdditionalDetails == nil {
+			product.ProductDetails.AdditionalDetails = make(map[string]interface{})
+		}
+		for k, v := range req.AdditionalDetails {
+			product.ProductDetails.AdditionalDetails[k] = v
+		}
 	}
 
 	if err := c.Service.Update(ctx, product, orgId); err != nil {
@@ -146,14 +168,24 @@ func ConvertProductToProto(p entity.Product) *adminpb.Product {
 		description = *p.Description
 	}
 
+	additionalDetails := make(map[string]string)
+	if p.ProductDetails != nil && p.ProductDetails.AdditionalDetails != nil {
+		for k, v := range p.ProductDetails.AdditionalDetails {
+			if strVal, ok := v.(string); ok {
+				additionalDetails[k] = strVal
+			}
+		}
+	}
+
 	return &adminpb.Product{
-		Id:             p.ID,
-		OrganizationId: p.OrganizationID,
-		Sku:            p.SKU,
-		Name:           p.Name,
-		Description:    description,
-		CreatedAt:      p.CreatedAt.Format(time.RFC3339),
-		UpdatedAt:      p.UpdatedAt.Format(time.RFC3339),
-		DeletedAt:      p.DeletedAt.Time.Format(time.RFC3339),
+		Id:                p.ID,
+		OrganizationId:    p.OrganizationID,
+		Sku:               p.SKU,
+		Name:              p.Name,
+		Description:       description,
+		CreatedAt:         p.CreatedAt.Format(time.RFC3339),
+		UpdatedAt:         p.UpdatedAt.Format(time.RFC3339),
+		DeletedAt:         p.DeletedAt.Time.Format(time.RFC3339),
+		AdditionalDetails: additionalDetails,
 	}
 }

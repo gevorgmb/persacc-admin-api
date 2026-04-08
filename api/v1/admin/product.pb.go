@@ -22,17 +22,18 @@ const (
 )
 
 type Product struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	Id             int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	OrganizationId int64                  `protobuf:"varint,2,opt,name=organization_id,json=organizationId,proto3" json:"organization_id,omitempty"`
-	Sku            string                 `protobuf:"bytes,3,opt,name=sku,proto3" json:"sku,omitempty"`
-	Name           string                 `protobuf:"bytes,4,opt,name=name,proto3" json:"name,omitempty"`
-	Description    string                 `protobuf:"bytes,5,opt,name=description,proto3" json:"description,omitempty"`
-	CreatedAt      string                 `protobuf:"bytes,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	UpdatedAt      string                 `protobuf:"bytes,7,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	DeletedAt      string                 `protobuf:"bytes,8,opt,name=deleted_at,json=deletedAt,proto3" json:"deleted_at,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	Id                int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	OrganizationId    int64                  `protobuf:"varint,2,opt,name=organization_id,json=organizationId,proto3" json:"organization_id,omitempty"`
+	Sku               string                 `protobuf:"bytes,3,opt,name=sku,proto3" json:"sku,omitempty"`
+	Name              string                 `protobuf:"bytes,4,opt,name=name,proto3" json:"name,omitempty"`
+	Description       string                 `protobuf:"bytes,5,opt,name=description,proto3" json:"description,omitempty"`
+	CreatedAt         string                 `protobuf:"bytes,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt         string                 `protobuf:"bytes,7,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	DeletedAt         string                 `protobuf:"bytes,8,opt,name=deleted_at,json=deletedAt,proto3" json:"deleted_at,omitempty"`
+	AdditionalDetails map[string]string      `protobuf:"bytes,9,rep,name=additional_details,json=additionalDetails,proto3" json:"additional_details,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
 func (x *Product) Reset() {
@@ -121,13 +122,21 @@ func (x *Product) GetDeletedAt() string {
 	return ""
 }
 
+func (x *Product) GetAdditionalDetails() map[string]string {
+	if x != nil {
+		return x.AdditionalDetails
+	}
+	return nil
+}
+
 type CreateProductRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Sku           string                 `protobuf:"bytes,1,opt,name=sku,proto3" json:"sku,omitempty"`
-	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Description   string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	Sku               string                 `protobuf:"bytes,1,opt,name=sku,proto3" json:"sku,omitempty"`
+	Name              string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Description       string                 `protobuf:"bytes,3,opt,name=description,proto3" json:"description,omitempty"`
+	AdditionalDetails map[string]string      `protobuf:"bytes,4,rep,name=additional_details,json=additionalDetails,proto3" json:"additional_details,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
 func (x *CreateProductRequest) Reset() {
@@ -179,6 +188,13 @@ func (x *CreateProductRequest) GetDescription() string {
 		return x.Description
 	}
 	return ""
+}
+
+func (x *CreateProductRequest) GetAdditionalDetails() map[string]string {
+	if x != nil {
+		return x.AdditionalDetails
+	}
+	return nil
 }
 
 type CreateProductResponse struct {
@@ -314,13 +330,14 @@ func (x *GetProductResponse) GetProduct() *Product {
 }
 
 type UpdateProductRequest struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	Sku           string                 `protobuf:"bytes,2,opt,name=sku,proto3" json:"sku,omitempty"`
-	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
-	Description   string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state             protoimpl.MessageState `protogen:"open.v1"`
+	Id                int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Sku               string                 `protobuf:"bytes,2,opt,name=sku,proto3" json:"sku,omitempty"`
+	Name              string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
+	Description       string                 `protobuf:"bytes,4,opt,name=description,proto3" json:"description,omitempty"`
+	AdditionalDetails map[string]string      `protobuf:"bytes,5,rep,name=additional_details,json=additionalDetails,proto3" json:"additional_details,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields     protoimpl.UnknownFields
+	sizeCache         protoimpl.SizeCache
 }
 
 func (x *UpdateProductRequest) Reset() {
@@ -379,6 +396,13 @@ func (x *UpdateProductRequest) GetDescription() string {
 		return x.Description
 	}
 	return ""
+}
+
+func (x *UpdateProductRequest) GetAdditionalDetails() map[string]string {
+	if x != nil {
+		return x.AdditionalDetails
+	}
+	return nil
 }
 
 type UpdateProductResponse struct {
@@ -661,7 +685,7 @@ var File_product_proto protoreflect.FileDescriptor
 
 const file_product_proto_rawDesc = "" +
 	"\n" +
-	"\rproduct.proto\x12\x05admin\"\xe7\x01\n" +
+	"\rproduct.proto\x12\x05admin\"\x83\x03\n" +
 	"\aProduct\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12'\n" +
 	"\x0forganization_id\x18\x02 \x01(\x03R\x0eorganizationId\x12\x10\n" +
@@ -673,22 +697,34 @@ const file_product_proto_rawDesc = "" +
 	"\n" +
 	"updated_at\x18\a \x01(\tR\tupdatedAt\x12\x1d\n" +
 	"\n" +
-	"deleted_at\x18\b \x01(\tR\tdeletedAt\"^\n" +
+	"deleted_at\x18\b \x01(\tR\tdeletedAt\x12T\n" +
+	"\x12additional_details\x18\t \x03(\v2%.admin.Product.AdditionalDetailsEntryR\x11additionalDetails\x1aD\n" +
+	"\x16AdditionalDetailsEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"\x87\x02\n" +
 	"\x14CreateProductRequest\x12\x10\n" +
 	"\x03sku\x18\x01 \x01(\tR\x03sku\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x03 \x01(\tR\vdescription\"A\n" +
+	"\vdescription\x18\x03 \x01(\tR\vdescription\x12a\n" +
+	"\x12additional_details\x18\x04 \x03(\v22.admin.CreateProductRequest.AdditionalDetailsEntryR\x11additionalDetails\x1aD\n" +
+	"\x16AdditionalDetailsEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"A\n" +
 	"\x15CreateProductResponse\x12(\n" +
 	"\aproduct\x18\x01 \x01(\v2\x0e.admin.ProductR\aproduct\"#\n" +
 	"\x11GetProductRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\">\n" +
 	"\x12GetProductResponse\x12(\n" +
-	"\aproduct\x18\x01 \x01(\v2\x0e.admin.ProductR\aproduct\"n\n" +
+	"\aproduct\x18\x01 \x01(\v2\x0e.admin.ProductR\aproduct\"\x97\x02\n" +
 	"\x14UpdateProductRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x10\n" +
 	"\x03sku\x18\x02 \x01(\tR\x03sku\x12\x12\n" +
 	"\x04name\x18\x03 \x01(\tR\x04name\x12 \n" +
-	"\vdescription\x18\x04 \x01(\tR\vdescription\"A\n" +
+	"\vdescription\x18\x04 \x01(\tR\vdescription\x12a\n" +
+	"\x12additional_details\x18\x05 \x03(\v22.admin.UpdateProductRequest.AdditionalDetailsEntryR\x11additionalDetails\x1aD\n" +
+	"\x16AdditionalDetailsEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12\x14\n" +
+	"\x05value\x18\x02 \x01(\tR\x05value:\x028\x01\"A\n" +
 	"\x15UpdateProductResponse\x12(\n" +
 	"\aproduct\x18\x01 \x01(\v2\x0e.admin.ProductR\aproduct\"&\n" +
 	"\x14DeleteProductRequest\x12\x0e\n" +
@@ -719,7 +755,7 @@ func file_product_proto_rawDescGZIP() []byte {
 	return file_product_proto_rawDescData
 }
 
-var file_product_proto_msgTypes = make([]protoimpl.MessageInfo, 11)
+var file_product_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
 var file_product_proto_goTypes = []any{
 	(*Product)(nil),               // 0: admin.Product
 	(*CreateProductRequest)(nil),  // 1: admin.CreateProductRequest
@@ -732,17 +768,23 @@ var file_product_proto_goTypes = []any{
 	(*DeleteProductResponse)(nil), // 8: admin.DeleteProductResponse
 	(*ListProductsRequest)(nil),   // 9: admin.ListProductsRequest
 	(*ListProductsResponse)(nil),  // 10: admin.ListProductsResponse
+	nil,                           // 11: admin.Product.AdditionalDetailsEntry
+	nil,                           // 12: admin.CreateProductRequest.AdditionalDetailsEntry
+	nil,                           // 13: admin.UpdateProductRequest.AdditionalDetailsEntry
 }
 var file_product_proto_depIdxs = []int32{
-	0, // 0: admin.CreateProductResponse.product:type_name -> admin.Product
-	0, // 1: admin.GetProductResponse.product:type_name -> admin.Product
-	0, // 2: admin.UpdateProductResponse.product:type_name -> admin.Product
-	0, // 3: admin.ListProductsResponse.products:type_name -> admin.Product
-	4, // [4:4] is the sub-list for method output_type
-	4, // [4:4] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	11, // 0: admin.Product.additional_details:type_name -> admin.Product.AdditionalDetailsEntry
+	12, // 1: admin.CreateProductRequest.additional_details:type_name -> admin.CreateProductRequest.AdditionalDetailsEntry
+	0,  // 2: admin.CreateProductResponse.product:type_name -> admin.Product
+	0,  // 3: admin.GetProductResponse.product:type_name -> admin.Product
+	13, // 4: admin.UpdateProductRequest.additional_details:type_name -> admin.UpdateProductRequest.AdditionalDetailsEntry
+	0,  // 5: admin.UpdateProductResponse.product:type_name -> admin.Product
+	0,  // 6: admin.ListProductsResponse.products:type_name -> admin.Product
+	7,  // [7:7] is the sub-list for method output_type
+	7,  // [7:7] is the sub-list for method input_type
+	7,  // [7:7] is the sub-list for extension type_name
+	7,  // [7:7] is the sub-list for extension extendee
+	0,  // [0:7] is the sub-list for field type_name
 }
 
 func init() { file_product_proto_init() }
@@ -756,7 +798,7 @@ func file_product_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_product_proto_rawDesc), len(file_product_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   11,
+			NumMessages:   14,
 			NumExtensions: 0,
 			NumServices:   0,
 		},
