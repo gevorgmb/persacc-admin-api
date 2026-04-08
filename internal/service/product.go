@@ -22,7 +22,7 @@ func (s *ProductService) Create(ctx context.Context, product *entity.Product) er
 
 func (s *ProductService) Get(ctx context.Context, id int64, organizationID int64) (*entity.Product, error) {
 	var product entity.Product
-	err := s.DB.Where("id = ? AND organization_id = ?", id, organizationID).First(&product).Error
+	err := s.DB.Preload("ProductDetails").Where("id = ? AND organization_id = ?", id, organizationID).First(&product).Error
 	if err != nil {
 		return nil, err
 	}
@@ -62,7 +62,7 @@ func (s *ProductService) List(ctx context.Context, limit, offset int, organizati
 	}
 
 	query.Count(&total)
-	if err := query.Limit(limit).Offset(offset).Find(&products).Error; err != nil {
+	if err := query.Preload("ProductDetails").Limit(limit).Offset(offset).Find(&products).Error; err != nil {
 		return nil, 0, err
 	}
 
