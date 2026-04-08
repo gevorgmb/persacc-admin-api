@@ -36,6 +36,15 @@ func (c *ProductController) Create(ctx context.Context, req *adminpb.CreateProdu
 		product.Description = &desc
 	}
 
+	if len(req.AdditionalDetails) > 0 {
+		product.ProductDetails = &entity.ProductDetail{
+			AdditionalDetails: make(map[string]interface{}),
+		}
+		for k, v := range req.AdditionalDetails {
+			product.ProductDetails.AdditionalDetails[k] = v
+		}
+	}
+
 	if req.CategoryId != 0 {
 		product.CategoryID = &req.CategoryId
 	}
