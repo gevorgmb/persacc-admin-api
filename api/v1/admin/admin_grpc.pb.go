@@ -59,6 +59,16 @@ const (
 	AdminService_UpdateProductCategory_FullMethodName = "/admin.AdminService/UpdateProductCategory"
 	AdminService_DeleteProductCategory_FullMethodName = "/admin.AdminService/DeleteProductCategory"
 	AdminService_ListProductCategories_FullMethodName = "/admin.AdminService/ListProductCategories"
+	AdminService_CreateSupplier_FullMethodName        = "/admin.AdminService/CreateSupplier"
+	AdminService_GetSupplier_FullMethodName           = "/admin.AdminService/GetSupplier"
+	AdminService_UpdateSupplier_FullMethodName        = "/admin.AdminService/UpdateSupplier"
+	AdminService_DeleteSupplier_FullMethodName        = "/admin.AdminService/DeleteSupplier"
+	AdminService_ListSuppliers_FullMethodName         = "/admin.AdminService/ListSuppliers"
+	AdminService_CreateVendor_FullMethodName          = "/admin.AdminService/CreateVendor"
+	AdminService_GetVendor_FullMethodName             = "/admin.AdminService/GetVendor"
+	AdminService_UpdateVendor_FullMethodName          = "/admin.AdminService/UpdateVendor"
+	AdminService_DeleteVendor_FullMethodName          = "/admin.AdminService/DeleteVendor"
+	AdminService_ListVendors_FullMethodName           = "/admin.AdminService/ListVendors"
 )
 
 // AdminServiceClient is the client API for AdminService service.
@@ -105,6 +115,16 @@ type AdminServiceClient interface {
 	UpdateProductCategory(ctx context.Context, in *UpdateProductCategoryRequest, opts ...grpc.CallOption) (*UpdateProductCategoryResponse, error)
 	DeleteProductCategory(ctx context.Context, in *DeleteProductCategoryRequest, opts ...grpc.CallOption) (*DeleteProductCategoryResponse, error)
 	ListProductCategories(ctx context.Context, in *ListProductCategoriesRequest, opts ...grpc.CallOption) (*ListProductCategoriesResponse, error)
+	CreateSupplier(ctx context.Context, in *CreateSupplierRequest, opts ...grpc.CallOption) (*CreateSupplierResponse, error)
+	GetSupplier(ctx context.Context, in *GetSupplierRequest, opts ...grpc.CallOption) (*GetSupplierResponse, error)
+	UpdateSupplier(ctx context.Context, in *UpdateSupplierRequest, opts ...grpc.CallOption) (*UpdateSupplierResponse, error)
+	DeleteSupplier(ctx context.Context, in *DeleteSupplierRequest, opts ...grpc.CallOption) (*DeleteSupplierResponse, error)
+	ListSuppliers(ctx context.Context, in *ListSuppliersRequest, opts ...grpc.CallOption) (*ListSuppliersResponse, error)
+	CreateVendor(ctx context.Context, in *CreateVendorRequest, opts ...grpc.CallOption) (*CreateVendorResponse, error)
+	GetVendor(ctx context.Context, in *GetVendorRequest, opts ...grpc.CallOption) (*GetVendorResponse, error)
+	UpdateVendor(ctx context.Context, in *UpdateVendorRequest, opts ...grpc.CallOption) (*UpdateVendorResponse, error)
+	DeleteVendor(ctx context.Context, in *DeleteVendorRequest, opts ...grpc.CallOption) (*DeleteVendorResponse, error)
+	ListVendors(ctx context.Context, in *ListVendorsRequest, opts ...grpc.CallOption) (*ListVendorsResponse, error)
 }
 
 type adminServiceClient struct {
@@ -515,6 +535,106 @@ func (c *adminServiceClient) ListProductCategories(ctx context.Context, in *List
 	return out, nil
 }
 
+func (c *adminServiceClient) CreateSupplier(ctx context.Context, in *CreateSupplierRequest, opts ...grpc.CallOption) (*CreateSupplierResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateSupplierResponse)
+	err := c.cc.Invoke(ctx, AdminService_CreateSupplier_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) GetSupplier(ctx context.Context, in *GetSupplierRequest, opts ...grpc.CallOption) (*GetSupplierResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetSupplierResponse)
+	err := c.cc.Invoke(ctx, AdminService_GetSupplier_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) UpdateSupplier(ctx context.Context, in *UpdateSupplierRequest, opts ...grpc.CallOption) (*UpdateSupplierResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateSupplierResponse)
+	err := c.cc.Invoke(ctx, AdminService_UpdateSupplier_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) DeleteSupplier(ctx context.Context, in *DeleteSupplierRequest, opts ...grpc.CallOption) (*DeleteSupplierResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteSupplierResponse)
+	err := c.cc.Invoke(ctx, AdminService_DeleteSupplier_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) ListSuppliers(ctx context.Context, in *ListSuppliersRequest, opts ...grpc.CallOption) (*ListSuppliersResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListSuppliersResponse)
+	err := c.cc.Invoke(ctx, AdminService_ListSuppliers_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) CreateVendor(ctx context.Context, in *CreateVendorRequest, opts ...grpc.CallOption) (*CreateVendorResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CreateVendorResponse)
+	err := c.cc.Invoke(ctx, AdminService_CreateVendor_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) GetVendor(ctx context.Context, in *GetVendorRequest, opts ...grpc.CallOption) (*GetVendorResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetVendorResponse)
+	err := c.cc.Invoke(ctx, AdminService_GetVendor_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) UpdateVendor(ctx context.Context, in *UpdateVendorRequest, opts ...grpc.CallOption) (*UpdateVendorResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateVendorResponse)
+	err := c.cc.Invoke(ctx, AdminService_UpdateVendor_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) DeleteVendor(ctx context.Context, in *DeleteVendorRequest, opts ...grpc.CallOption) (*DeleteVendorResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteVendorResponse)
+	err := c.cc.Invoke(ctx, AdminService_DeleteVendor_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) ListVendors(ctx context.Context, in *ListVendorsRequest, opts ...grpc.CallOption) (*ListVendorsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ListVendorsResponse)
+	err := c.cc.Invoke(ctx, AdminService_ListVendors_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AdminServiceServer is the server API for AdminService service.
 // All implementations must embed UnimplementedAdminServiceServer
 // for forward compatibility.
@@ -559,6 +679,16 @@ type AdminServiceServer interface {
 	UpdateProductCategory(context.Context, *UpdateProductCategoryRequest) (*UpdateProductCategoryResponse, error)
 	DeleteProductCategory(context.Context, *DeleteProductCategoryRequest) (*DeleteProductCategoryResponse, error)
 	ListProductCategories(context.Context, *ListProductCategoriesRequest) (*ListProductCategoriesResponse, error)
+	CreateSupplier(context.Context, *CreateSupplierRequest) (*CreateSupplierResponse, error)
+	GetSupplier(context.Context, *GetSupplierRequest) (*GetSupplierResponse, error)
+	UpdateSupplier(context.Context, *UpdateSupplierRequest) (*UpdateSupplierResponse, error)
+	DeleteSupplier(context.Context, *DeleteSupplierRequest) (*DeleteSupplierResponse, error)
+	ListSuppliers(context.Context, *ListSuppliersRequest) (*ListSuppliersResponse, error)
+	CreateVendor(context.Context, *CreateVendorRequest) (*CreateVendorResponse, error)
+	GetVendor(context.Context, *GetVendorRequest) (*GetVendorResponse, error)
+	UpdateVendor(context.Context, *UpdateVendorRequest) (*UpdateVendorResponse, error)
+	DeleteVendor(context.Context, *DeleteVendorRequest) (*DeleteVendorResponse, error)
+	ListVendors(context.Context, *ListVendorsRequest) (*ListVendorsResponse, error)
 	mustEmbedUnimplementedAdminServiceServer()
 }
 
@@ -688,6 +818,36 @@ func (UnimplementedAdminServiceServer) DeleteProductCategory(context.Context, *D
 }
 func (UnimplementedAdminServiceServer) ListProductCategories(context.Context, *ListProductCategoriesRequest) (*ListProductCategoriesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListProductCategories not implemented")
+}
+func (UnimplementedAdminServiceServer) CreateSupplier(context.Context, *CreateSupplierRequest) (*CreateSupplierResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateSupplier not implemented")
+}
+func (UnimplementedAdminServiceServer) GetSupplier(context.Context, *GetSupplierRequest) (*GetSupplierResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSupplier not implemented")
+}
+func (UnimplementedAdminServiceServer) UpdateSupplier(context.Context, *UpdateSupplierRequest) (*UpdateSupplierResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateSupplier not implemented")
+}
+func (UnimplementedAdminServiceServer) DeleteSupplier(context.Context, *DeleteSupplierRequest) (*DeleteSupplierResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteSupplier not implemented")
+}
+func (UnimplementedAdminServiceServer) ListSuppliers(context.Context, *ListSuppliersRequest) (*ListSuppliersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListSuppliers not implemented")
+}
+func (UnimplementedAdminServiceServer) CreateVendor(context.Context, *CreateVendorRequest) (*CreateVendorResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateVendor not implemented")
+}
+func (UnimplementedAdminServiceServer) GetVendor(context.Context, *GetVendorRequest) (*GetVendorResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetVendor not implemented")
+}
+func (UnimplementedAdminServiceServer) UpdateVendor(context.Context, *UpdateVendorRequest) (*UpdateVendorResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateVendor not implemented")
+}
+func (UnimplementedAdminServiceServer) DeleteVendor(context.Context, *DeleteVendorRequest) (*DeleteVendorResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteVendor not implemented")
+}
+func (UnimplementedAdminServiceServer) ListVendors(context.Context, *ListVendorsRequest) (*ListVendorsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListVendors not implemented")
 }
 func (UnimplementedAdminServiceServer) mustEmbedUnimplementedAdminServiceServer() {}
 func (UnimplementedAdminServiceServer) testEmbeddedByValue()                      {}
@@ -1430,6 +1590,186 @@ func _AdminService_ListProductCategories_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AdminService_CreateSupplier_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateSupplierRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).CreateSupplier(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_CreateSupplier_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).CreateSupplier(ctx, req.(*CreateSupplierRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_GetSupplier_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetSupplierRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).GetSupplier(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_GetSupplier_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).GetSupplier(ctx, req.(*GetSupplierRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_UpdateSupplier_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateSupplierRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).UpdateSupplier(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_UpdateSupplier_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).UpdateSupplier(ctx, req.(*UpdateSupplierRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_DeleteSupplier_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteSupplierRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).DeleteSupplier(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_DeleteSupplier_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).DeleteSupplier(ctx, req.(*DeleteSupplierRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_ListSuppliers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListSuppliersRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).ListSuppliers(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_ListSuppliers_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).ListSuppliers(ctx, req.(*ListSuppliersRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_CreateVendor_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateVendorRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).CreateVendor(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_CreateVendor_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).CreateVendor(ctx, req.(*CreateVendorRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_GetVendor_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetVendorRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).GetVendor(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_GetVendor_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).GetVendor(ctx, req.(*GetVendorRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_UpdateVendor_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateVendorRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).UpdateVendor(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_UpdateVendor_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).UpdateVendor(ctx, req.(*UpdateVendorRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_DeleteVendor_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteVendorRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).DeleteVendor(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_DeleteVendor_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).DeleteVendor(ctx, req.(*DeleteVendorRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_ListVendors_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListVendorsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).ListVendors(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_ListVendors_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).ListVendors(ctx, req.(*ListVendorsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AdminService_ServiceDesc is the grpc.ServiceDesc for AdminService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1596,6 +1936,46 @@ var AdminService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListProductCategories",
 			Handler:    _AdminService_ListProductCategories_Handler,
+		},
+		{
+			MethodName: "CreateSupplier",
+			Handler:    _AdminService_CreateSupplier_Handler,
+		},
+		{
+			MethodName: "GetSupplier",
+			Handler:    _AdminService_GetSupplier_Handler,
+		},
+		{
+			MethodName: "UpdateSupplier",
+			Handler:    _AdminService_UpdateSupplier_Handler,
+		},
+		{
+			MethodName: "DeleteSupplier",
+			Handler:    _AdminService_DeleteSupplier_Handler,
+		},
+		{
+			MethodName: "ListSuppliers",
+			Handler:    _AdminService_ListSuppliers_Handler,
+		},
+		{
+			MethodName: "CreateVendor",
+			Handler:    _AdminService_CreateVendor_Handler,
+		},
+		{
+			MethodName: "GetVendor",
+			Handler:    _AdminService_GetVendor_Handler,
+		},
+		{
+			MethodName: "UpdateVendor",
+			Handler:    _AdminService_UpdateVendor_Handler,
+		},
+		{
+			MethodName: "DeleteVendor",
+			Handler:    _AdminService_DeleteVendor_Handler,
+		},
+		{
+			MethodName: "ListVendors",
+			Handler:    _AdminService_ListVendors_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

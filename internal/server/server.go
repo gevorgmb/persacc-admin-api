@@ -24,6 +24,8 @@ type AdminServer struct {
 	OrganizationCtrl *controller.OrganizationController
 	ProductCtrl      *controller.ProductController
 	ProductCategoryCtrl *controller.ProductCategoryController
+	SupplierCtrl     *controller.SupplierController
+	VendorCtrl       *controller.VendorController
 }
 
 func NewAdminServer(db *gorm.DB, authClient authpb.OAuthClient) *AdminServer {
@@ -44,6 +46,8 @@ func NewAdminServer(db *gorm.DB, authClient authpb.OAuthClient) *AdminServer {
 		OrganizationCtrl: controller.NewOrganizationController(service.NewOrganizationService(db)),
 		ProductCtrl:      controller.NewProductController(service.NewProductService(db)),
 		ProductCategoryCtrl: controller.NewProductCategoryController(service.NewProductCategoryService(db)),
+		SupplierCtrl:     controller.NewSupplierController(service.NewSupplierService(db)),
+		VendorCtrl:       controller.NewVendorController(service.NewVendorService(db)),
 	}
 }
 
@@ -203,6 +207,50 @@ func (s *AdminServer) DeleteProductCategory(ctx context.Context, req *adminpb.De
 
 func (s *AdminServer) ListProductCategories(ctx context.Context, req *adminpb.ListProductCategoriesRequest) (*adminpb.ListProductCategoriesResponse, error) {
 	return s.ProductCategoryCtrl.List(ctx, req)
+}
+
+// --- Supplier CRUD ---
+
+func (s *AdminServer) CreateSupplier(ctx context.Context, req *adminpb.CreateSupplierRequest) (*adminpb.CreateSupplierResponse, error) {
+	return s.SupplierCtrl.Create(ctx, req)
+}
+
+func (s *AdminServer) GetSupplier(ctx context.Context, req *adminpb.GetSupplierRequest) (*adminpb.GetSupplierResponse, error) {
+	return s.SupplierCtrl.Get(ctx, req)
+}
+
+func (s *AdminServer) UpdateSupplier(ctx context.Context, req *adminpb.UpdateSupplierRequest) (*adminpb.UpdateSupplierResponse, error) {
+	return s.SupplierCtrl.Update(ctx, req)
+}
+
+func (s *AdminServer) DeleteSupplier(ctx context.Context, req *adminpb.DeleteSupplierRequest) (*adminpb.DeleteSupplierResponse, error) {
+	return s.SupplierCtrl.Delete(ctx, req)
+}
+
+func (s *AdminServer) ListSuppliers(ctx context.Context, req *adminpb.ListSuppliersRequest) (*adminpb.ListSuppliersResponse, error) {
+	return s.SupplierCtrl.List(ctx, req)
+}
+
+// --- Vendor CRUD ---
+
+func (s *AdminServer) CreateVendor(ctx context.Context, req *adminpb.CreateVendorRequest) (*adminpb.CreateVendorResponse, error) {
+	return s.VendorCtrl.Create(ctx, req)
+}
+
+func (s *AdminServer) GetVendor(ctx context.Context, req *adminpb.GetVendorRequest) (*adminpb.GetVendorResponse, error) {
+	return s.VendorCtrl.Get(ctx, req)
+}
+
+func (s *AdminServer) UpdateVendor(ctx context.Context, req *adminpb.UpdateVendorRequest) (*adminpb.UpdateVendorResponse, error) {
+	return s.VendorCtrl.Update(ctx, req)
+}
+
+func (s *AdminServer) DeleteVendor(ctx context.Context, req *adminpb.DeleteVendorRequest) (*adminpb.DeleteVendorResponse, error) {
+	return s.VendorCtrl.Delete(ctx, req)
+}
+
+func (s *AdminServer) ListVendors(ctx context.Context, req *adminpb.ListVendorsRequest) (*adminpb.ListVendorsResponse, error) {
+	return s.VendorCtrl.List(ctx, req)
 }
 
 // --- OAuth Proxy ---

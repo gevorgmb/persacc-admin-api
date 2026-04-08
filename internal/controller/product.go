@@ -36,13 +36,14 @@ func (c *ProductController) Create(ctx context.Context, req *adminpb.CreateProdu
 		product.Description = &desc
 	}
 
-	if len(req.AdditionalDetails) > 0 {
-		product.ProductDetails = &entity.ProductDetail{
-			AdditionalDetails: make(map[string]interface{}),
-		}
-		for k, v := range req.AdditionalDetails {
-			product.ProductDetails.AdditionalDetails[k] = v
-		}
+	if req.CategoryId != 0 {
+		product.CategoryID = &req.CategoryId
+	}
+	if req.VendorId != 0 {
+		product.VendorID = &req.VendorId
+	}
+	if req.VendorProductCode != "" {
+		product.VendorProductCode = &req.VendorProductCode
 	}
 
 	if err := c.Service.Create(ctx, &product); err != nil {
@@ -101,6 +102,16 @@ func (c *ProductController) Update(ctx context.Context, req *adminpb.UpdateProdu
 		for k, v := range req.AdditionalDetails {
 			product.ProductDetails.AdditionalDetails[k] = v
 		}
+	}
+
+	if req.CategoryId != 0 {
+		product.CategoryID = &req.CategoryId
+	}
+	if req.VendorId != 0 {
+		product.VendorID = &req.VendorId
+	}
+	if req.VendorProductCode != "" {
+		product.VendorProductCode = &req.VendorProductCode
 	}
 
 	if err := c.Service.Update(ctx, product, orgId); err != nil {
@@ -177,6 +188,18 @@ func ConvertProductToProto(p entity.Product) *adminpb.Product {
 		}
 	}
 
+	var categoryId, vendorId int64
+	var vendorProductCode string
+	if p.CategoryID != nil {
+		categoryId = *p.CategoryID
+	}
+	if p.VendorID != nil {
+		vendorId = *p.VendorID
+	}
+	if p.VendorProductCode != nil {
+		vendorProductCode = *p.VendorProductCode
+	}
+
 	return &adminpb.Product{
 		Id:                p.ID,
 		OrganizationId:    p.OrganizationID,
@@ -187,5 +210,8 @@ func ConvertProductToProto(p entity.Product) *adminpb.Product {
 		UpdatedAt:         p.UpdatedAt.Format(time.RFC3339),
 		DeletedAt:         p.DeletedAt.Time.Format(time.RFC3339),
 		AdditionalDetails: additionalDetails,
+		CategoryId:        categoryId,
+		VendorId:          vendorId,
+		VendorProductCode: vendorProductCode,
 	}
 }
